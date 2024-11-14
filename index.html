@@ -18,8 +18,8 @@
       myCanvas.height = window.innerHeight;
       const ctx = myCanvas.getContext("2d");
 
-      const A = { x: 100, y: 200 };
-      const B = { x: 400, y: 200 };
+      const A = { x: 100, y: 300 };
+      const B = { x: 400, y: 100 };
 
       // extrapolation
       // t = -0.2;
@@ -33,7 +33,7 @@
         const t = i / (n - 1);
         const C = {
           x: lerp(A.x, B.x, t),
-          y: 200,
+          y: lerp(A.y, B.y, t),
         };
         drawDot(C, "." + i);
       }
