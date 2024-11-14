@@ -39,8 +39,8 @@
         const seconds = new Date().getTime() / 1000;
         console.log("seconds", seconds);
         //Nice trick to make 't' use the floating point .dec part to go from 0 to 1!!
-        const t = seconds - Math.floor(seconds); // milliseconds
-
+        // const t = seconds - Math.floor(seconds); // milliseconds
+        const t = (Math.sin(seconds) + 1) / 2;
         const C = vLerp(A, B, t);
         drawDot(C, " ");
         drawDot(A, "A");
