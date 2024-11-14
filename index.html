@@ -40,7 +40,12 @@
         console.log("seconds", seconds);
         //Nice trick to make 't' use the floating point .dec part to go from 0 to 1!!
         // const t = seconds - Math.floor(seconds); // milliseconds
-        const t = (Math.sin(seconds) + 1) / 2;
+        // this starts off at -PI/2 which is also 0 on the axis. then it goes to 3PI/2.
+        // const t = (Math.sin(seconds) + 1) / 2;
+        // the above takes 2pi seconds round trip IMU. To get it
+        // this is 1 second up, 1 second back
+        const t = (Math.sin(seconds * Math.PI) + 1) / 2;
+
         const C = vLerp(A, B, t);
         drawDot(C, " ");
         drawDot(A, "A");
