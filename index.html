@@ -28,18 +28,26 @@
         x: lerp(A.x, B.x, t),
         y: lerp(A.y, B.y, t),
       };
-      const n = 10;
-      for (let i = 0; i < n; i++) {
-        const t = i / (n - 1);
-        // const C = {
-        //   x: lerp(A.x, B.x, t),
-        //   y: lerp(A.y, B.y, t),
-        // };
-        const C = vLerp(A, B, t);
-        drawDot(C, "." + i);
-      }
       drawDot(A, "A");
       drawDot(B, "B");
+
+      animate();
+
+      function animate() {
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+
+        const seconds = new Date().getTime() / 1000;
+        console.log("seconds", seconds);
+        //Nice trick to make 't' use the floating point .dec part to go from 0 to 1!!
+        const t = seconds - Math.floor(seconds); // milliseconds
+
+        const C = vLerp(A, B, t);
+        drawDot(C, " ");
+        drawDot(A, "A");
+        drawDot(B, "B");
+
+        requestAnimationFrame(animate);
+      }
       function lerp(a, b, t) {
         // return a + (b - a) * Math.random();
         return a + (b - a) * t;
