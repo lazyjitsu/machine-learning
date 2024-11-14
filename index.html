@@ -31,10 +31,11 @@
       const n = 10;
       for (let i = 0; i < n; i++) {
         const t = i / (n - 1);
-        const C = {
-          x: lerp(A.x, B.x, t),
-          y: lerp(A.y, B.y, t),
-        };
+        // const C = {
+        //   x: lerp(A.x, B.x, t),
+        //   y: lerp(A.y, B.y, t),
+        // };
+        const C = vLerp(A, B, t);
         drawDot(C, "." + i);
       }
       drawDot(A, "A");
@@ -42,6 +43,12 @@
       function lerp(a, b, t) {
         // return a + (b - a) * Math.random();
         return a + (b - a) * t;
+      }
+      function vLerp(A, B, t) {
+        return {
+          x: lerp(A.x, B.x, t),
+          y: lerp(A.y, B.y, t),
+        };
       }
       function drawDot(pos, label) {
         ctx.beginPath();

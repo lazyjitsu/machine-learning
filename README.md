@@ -48,6 +48,7 @@ C = {x:(A.x+B.x/2)}
 This is not exactly correct but would crudely work.
 
 function lerp-v1(a,b,t) {
+  // the (b-a) is the problem here due to how js handles floating points
 return a + (b-a)*t;
 }
 
@@ -57,7 +58,7 @@ return a*(1-t) + b*t;
 
 lerp-v1(5.8,1.1,1)
 Out: 1.100000000000005
-
+// v2 is better
 function lerp-v2(a,b,t) {
 return a*(1-t) + b*t;
 }
@@ -65,3 +66,5 @@ return a*(1-t) + b*t;
 lerp-v1(5.8,1.1,1)
 Out: 1.1
 ```
+
+![SimilarTriangles](/similarTriangles.JPG)
