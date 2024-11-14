@@ -34,7 +34,7 @@
       animate();
 
       function animate() {
-        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
 
         const seconds = new Date().getTime() / 1000;
         console.log("seconds", seconds);
@@ -50,7 +50,6 @@
         drawDot(C, " ");
         drawDot(A, "A");
         drawDot(B, "B");
-
         requestAnimationFrame(animate);
       }
       function lerp(a, b, t) {
