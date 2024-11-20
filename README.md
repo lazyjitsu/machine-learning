@@ -67,4 +67,5 @@ lerp-v1(5.8,1.1,1)
 Out: 1.1
 ```
 
+Similar triangles / similar sides
 ![SimilarTriangles](/similarTriangles.JPG)
