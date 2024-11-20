@@ -44,8 +44,8 @@
         // const t = (Math.sin(seconds) + 1) / 2;
         // the above takes 2pi seconds round trip IMU. To get it
         // this is 1 second up, 1 second back
+        // const t = (Math.sin(seconds) + 1) / 2;
         const t = (Math.sin(seconds) + 1) / 2;
-
         const C = vLerp(A, B, t);
         drawDot(C, " ");
         drawDot(A, "A");
