@@ -77,7 +77,8 @@
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
         ctx.font = "bold 40px Arial";
-        ctx.setLineDash([3, 100]);
+        // using lerp to determine size of line
+        ctx.setLineDash([lerp(50, 130, t), 130]);
         ctx.strokeText("click for sound", myCanvas.width / 2, 10);
         ctx.setLineDash([]);
         ctx.fillText("click for sound", myCanvas.width / 2, 10);
