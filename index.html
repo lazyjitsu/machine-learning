@@ -25,11 +25,13 @@
   // Coordinate System
   ctx.beginPath();
   ctx.strokeStyle = "lightgray";
+  ctx.setLineDash([10, 12]);
   ctx.moveTo(-offset.x, 0);
   ctx.lineTo(ctx.canvas.width - offset.x, 0);
   ctx.moveTo(0, -offset.y);
   ctx.lineTo(0, ctx.canvas.height - offset.y);
   ctx.stroke();
+  ctx.setLineDash([]);
 
   const A = { x: 0, y: 0 };
   const B = { x: 90, y: 120 };
