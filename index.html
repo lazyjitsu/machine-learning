@@ -24,7 +24,7 @@
   const B = { x: 90, y: 120 };
   const C = { x: B.x, y: 0 };
   ctx.translate(offset.x, offset.y);
-
+  update();
   document.onmousemove = (e) => {
     B.x = e.x - offset.x;
     B.y = e.y - offset.y;
@@ -37,6 +37,11 @@
   function update() {
     ctx.clearRect(-offset.x, -offset.y, myCanvas.width, myCanvas.height);
     drawCoordinateGrid(ctx, offset);
+
+    drawLine(A, B);
+    drawLine(A, C);
+    drawLine(B, C);
+
     drawPoint(A);
     drawText("A", A);
     drawPoint(B);
@@ -52,7 +57,14 @@
     ctx.font = "bold 13px Courier";
     ctx.fillText(text, loc.x, loc.y);
   }
-
+  function drawLine(p1, p2, color = "black") {
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.moveTo(p1.x, p1.y);
+    ctx.lineTo(p2.x, p2.y);
+    ctx.stroke();
+  }
   function drawPoint(p, size = 20, color = "black") {
     ctx.beginPath();
 
