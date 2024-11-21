@@ -1,7 +1,7 @@
 <canvas
   id="myCanvas"
-  width="500px"
-  height="500px"
+  width="600px"
+  height="600px"
   style="background-color: white"
 >
 </canvas>
@@ -16,6 +16,20 @@
 
 <script>
   const ctx = myCanvas.getContext("2d");
+  const offset = {
+    x: myCanvas.width / 2,
+    y: myCanvas.height / 2,
+  };
+  ctx.translate(offset.x, offset.y);
+
+  // Coordinate System
+  ctx.beginPath();
+  ctx.strokeStyle = "lightgray";
+  ctx.moveTo(-offset.x, 0);
+  ctx.lineTo(ctx.canvas.width - offset.x, 0);
+  ctx.moveTo(0, -offset.y);
+  ctx.lineTo(0, ctx.canvas.height - offset.y);
+  ctx.stroke();
 
   const A = { x: 0, y: 0 };
   const B = { x: 90, y: 120 };
