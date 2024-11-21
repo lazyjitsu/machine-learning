@@ -36,7 +36,7 @@
       };
       drawDot(A, "A");
       drawDot(B, "B");
-
+      let osc = null;
       let audioCtx = null;
       myCanvas.onclick = function () {
         // The audio context can't be initialized unless the user interacts w/the page is why we do it like this. We also need to find the audio context cause some browsers behave have diff audio  hence all the or statements.
@@ -44,8 +44,8 @@
           audioCtx = new (AudioContext ||
             webkitAudioContext ||
             window.webkitAudioContext)();
-          const osc = audioCtx.createOscillator();
-          // osc.frequency.value = 200;
+          osc = audioCtx.createOscillator();
+          osc.frequency.value = 200;
           osc.start();
           // lower the sound dont want to hurt ears
           const node = audioCtx.createGain();
@@ -69,10 +69,18 @@
         drawDot(B, "B");
         const { r, g, b } = vLerp(orange, blue, t);
         myCanvas.style.backgroundColor = `rgb(${r},${g},${b})`;
+
         if (osc) {
           osc.frequency.value = lerp(lowFreq, highFreq, t);
         }
-
+        ctx.strokeStyle = "white";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        ctx.font = "bold 40px Arial";
+        ctx.setLineDash([3, 100]);
+        ctx.strokeText("click for sound", myCanvas.width / 2, 10);
+        ctx.setLineDash([]);
+        ctx.fillText("click for sound", myCanvas.width / 2, 10);
         requestAnimationFrame(animate);
       }
       function lerp(a, b, t) {
