@@ -35,12 +35,19 @@
   drawCoordinateGrid(ctx, offset);
 
   function update() {
+    const c = distance(A, B);
+    const a = distance(B, C);
+    const b = distance(A, C);
+
     ctx.clearRect(-offset.x, -offset.y, myCanvas.width, myCanvas.height);
     drawCoordinateGrid(ctx, offset);
 
     drawLine(A, B);
+    drawText("c:" + Math.round(c), average(A, B), "black");
     drawLine(A, C);
+    drawText("b:" + Math.round(b), average(A, C), "black");
     drawLine(B, C);
+    drawText("a:" + Math.round(a), average(B, C), "black");
 
     drawPoint(A);
     drawText("A", A);
@@ -48,6 +55,16 @@
     drawText("B", B);
     drawPoint(C);
     drawText("C", C);
+  }
+  function average(p1, p2) {
+    return {
+      x: (p1.x + p2.x) / 2,
+      y: (p1.y + p2.y) / 2,
+    };
+  }
+  function distance(p1, p2) {
+    // return (p1.x - p2.x)**2 + (p1.y - p2.y)**2;
+    return Math.hypot(p1.x - p2.x, p1.y - p2.y);
   }
   function drawText(text, loc, color = "white") {
     ctx.beginPath();
@@ -67,9 +84,8 @@
   }
   function drawPoint(p, size = 20, color = "black") {
     ctx.beginPath();
-
     ctx.fillStyle = color;
-    ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, size / 2, 0, Math.PI * 2);
     ctx.fill();
   }
   function drawCoordinateGrid(ctx, offset) {
