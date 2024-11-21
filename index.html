@@ -20,9 +20,26 @@
   const A = { x: 0, y: 0 };
   const B = { x: 90, y: 120 };
   const C = { x: B.x, y: 0 };
+
+  drawPoint(A);
+  drawText("A", A);
   drawPoint(B);
+  drawText("B", B);
+  drawPoint(C);
+  drawText("C", C);
+
+  function drawText(text, loc, color = "white") {
+    ctx.beginPath();
+    ctx.fillStyle = color;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = "bold 13px Courier";
+    ctx.fillText(text, loc.x, loc.y);
+  }
+
   function drawPoint(p, size = 20, color = "black") {
     ctx.beginPath();
+
     ctx.fillStyle = color;
     ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
     ctx.fill();
