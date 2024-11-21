@@ -1,0 +1,30 @@
+<canvas
+  id="myCanvas"
+  width="500px"
+  height="500px"
+  style="background-color: white"
+>
+</canvas>
+
+<style>
+  body {
+    background-color: black;
+    margin: 0;
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  const ctx = myCanvas.getContext("2d");
+
+  const A = { x: 0, y: 0 };
+  const B = { x: 90, y: 120 };
+  const C = { x: B.x, y: 0 };
+  drawPoint(B);
+  function drawPoint(p, size = 20, color = "black") {
+    ctx.beginPath();
+    ctx.fillStyle = color;
+    ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+</script>
