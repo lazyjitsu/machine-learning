@@ -34,6 +34,21 @@
       drawDot(A, "A");
       drawDot(B, "B");
 
+      let audioCtx = null;
+      myCanvas.onclick = function () {
+        // The audio context can't be initialized unless the user interacts w/the page is why we do it like this. We also need to find the audio context cause some browsers behave have diff audio  hence all the or statements.
+        if (audioCtx == null) {
+          audioCtx = new (AudioContext ||
+            webkitAudioContext ||
+            window.webkitAudioContext)();
+          const osc = audioCtx.createOscillator();
+          osc.frequency.value = 200;
+          osc.start();
+          // lower the sound dont want to hurt ears
+          const node = audioCtx.createGain();
+          node.gain.value = 0.1;
+        }
+      };
       animate();
 
       function animate() {
