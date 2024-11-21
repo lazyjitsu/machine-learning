@@ -24,6 +24,9 @@
       const orange = { r: 230, g: 150, b: 0 };
       const blue = { r: 0, g: 70, b: 160 };
 
+      const lowFreq = 200;
+      const highFreq = 600;
+
       // extrapolation
       // t = -0.2;
       const t = 0.3;
@@ -42,11 +45,14 @@
             webkitAudioContext ||
             window.webkitAudioContext)();
           const osc = audioCtx.createOscillator();
-          osc.frequency.value = 200;
+          // osc.frequency.value = 200;
           osc.start();
           // lower the sound dont want to hurt ears
           const node = audioCtx.createGain();
           node.gain.value = 0.1;
+
+          osc.connect(node);
+          node.connect(audioCtx.destination);
         }
       };
       animate();
@@ -63,6 +69,9 @@
         drawDot(B, "B");
         const { r, g, b } = vLerp(orange, blue, t);
         myCanvas.style.backgroundColor = `rgb(${r},${g},${b})`;
+        if (osc) {
+          osc.frequency.value = lerp(lowFreq, highFreq, t);
+        }
 
         requestAnimationFrame(animate);
       }
