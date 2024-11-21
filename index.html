@@ -20,30 +20,30 @@
     x: myCanvas.width / 2,
     y: myCanvas.height / 2,
   };
-  ctx.translate(offset.x, offset.y);
-
-  // Coordinate System
-  ctx.beginPath();
-  ctx.strokeStyle = "lightgray";
-  ctx.setLineDash([10, 12]);
-  ctx.moveTo(-offset.x, 0);
-  ctx.lineTo(ctx.canvas.width - offset.x, 0);
-  ctx.moveTo(0, -offset.y);
-  ctx.lineTo(0, ctx.canvas.height - offset.y);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
   const A = { x: 0, y: 0 };
   const B = { x: 90, y: 120 };
   const C = { x: B.x, y: 0 };
+  ctx.translate(offset.x, offset.y);
 
-  drawPoint(A);
-  drawText("A", A);
-  drawPoint(B);
-  drawText("B", B);
-  drawPoint(C);
-  drawText("C", C);
+  document.onmousemove = (e) => {
+    B.x = e.x - offset.x;
+    B.y = e.y - offset.y;
 
+    C.x = B.x;
+    update();
+  };
+  drawCoordinateGrid(ctx, offset);
+
+  function update() {
+    ctx.clearRect(-offset.x, -offset.y, myCanvas.width, myCanvas.height);
+    drawCoordinateGrid(ctx, offset);
+    drawPoint(A);
+    drawText("A", A);
+    drawPoint(B);
+    drawText("B", B);
+    drawPoint(C);
+    drawText("C", C);
+  }
   function drawText(text, loc, color = "white") {
     ctx.beginPath();
     ctx.fillStyle = color;
@@ -59,5 +59,17 @@
     ctx.fillStyle = color;
     ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
     ctx.fill();
+  }
+  function drawCoordinateGrid(ctx, offset) {
+    // Coordinate System
+    ctx.beginPath();
+    ctx.strokeStyle = "lightgray";
+    ctx.setLineDash([10, 12]);
+    ctx.moveTo(-offset.x, 0);
+    ctx.lineTo(ctx.canvas.width - offset.x, 0);
+    ctx.moveTo(0, -offset.y);
+    ctx.lineTo(0, ctx.canvas.height - offset.y);
+    ctx.stroke();
+    ctx.setLineDash([]);
   }
 </script>
