@@ -43,18 +43,11 @@
     drawCoordinateGrid(ctx, offset);
 
     drawLine(A, B);
-    drawText("c:" + Math.round(c), average(A, B), "black");
+    drawText("c:" + Math.round(c), average(A, B));
     drawLine(A, C);
-    drawText("b:" + Math.round(b), average(A, C), "black");
+    drawText("b:" + Math.round(b), average(A, C));
     drawLine(B, C);
-    drawText("a:" + Math.round(a), average(B, C), "black");
-
-    drawPoint(A);
-    drawText("A", A);
-    drawPoint(B);
-    drawText("B", B);
-    drawPoint(C);
-    drawText("C", C);
+    drawText("a:" + Math.round(a), average(B, C));
   }
   function average(p1, p2) {
     return {
@@ -66,7 +59,7 @@
     // return (p1.x - p2.x)**2 + (p1.y - p2.y)**2;
     return Math.hypot(p1.x - p2.x, p1.y - p2.y);
   }
-  function drawText(text, loc, color = "white") {
+  function drawText(text, loc, color = "black") {
     ctx.beginPath();
     ctx.fillStyle = color;
     ctx.textAlign = "center";
