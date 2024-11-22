@@ -56,7 +56,7 @@
     };
   }
   function distance(p1, p2) {
-    // return (p1.x - p2.x)**2 + (p1.y - p2.y)**2;
+    // return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
     return Math.hypot(p1.x - p2.x, p1.y - p2.y);
   }
   function drawText(text, loc, color = "black") {
@@ -64,7 +64,10 @@
     ctx.fillStyle = color;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.font = "bold 13px Courier";
+    ctx.font = "bold 18px Courier";
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = 7;
+    ctx.strokeText(text, loc.x, loc.y);
     ctx.fillText(text, loc.x, loc.y);
   }
   function drawLine(p1, p2, color = "black") {
