@@ -49,12 +49,6 @@
       x: -offset.x / 2,
       y: offset.y * 0.7,
     });
-    drawLine(A, B);
-    drawText("c:" + Math.round(c), average(A, B));
-    drawLine(A, C);
-    drawText("b:" + Math.round(b), average(A, C));
-    drawLine(B, C);
-    drawText("a:" + Math.round(a), average(B, C));
 
     drawText(
       "θ=" +
@@ -64,6 +58,20 @@
         "°)",
       { x: offset.x / 2, y: offset.y * 0.7 }
     );
+    drawLine(A, B);
+    drawText("c:" + Math.round(c), average(A, B));
+    drawLine(A, C);
+    drawText("b:" + Math.round(b), average(A, C));
+    drawLine(B, C);
+    drawText("a:" + Math.round(a), average(B, C));
+
+    drawText("θ", A);
+
+    ctx.beginPath();
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.arc(0, 0, 20, 0, theta);
+    ctx.stroke();
   }
   function toDegree(rad) {
     // 360 = 2Math.PI --> divide by 2 -- 180 = Math.PI
