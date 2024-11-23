@@ -70,12 +70,18 @@
     ctx.beginPath();
     ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
-    ctx.arc(0, 0, 20, 0, theta);
+    const start = B.x > A.x ? 0 : Math.PI;
+    const clockwise = (B.y < C.y) ^ (B.x > A.x);
+    let end = B.y < C.y ? -theta : theta;
+    if (B.x < A.x) {
+      end = Math.PI - end;
+    }
+    ctx.arc(0, 0, 20, start, end, !clockwise);
     ctx.stroke();
   }
   function toDegree(rad) {
     // 360 = 2Math.PI --> divide by 2 -- 180 = Math.PI
-    console.log("converting ", rad);
+    // console.log("converting ", rad);
     return (rad * 180) / Math.PI;
   }
   // wrote toTheta just in case. lol
