@@ -39,15 +39,41 @@
     const a = distance(B, C);
     const b = distance(A, C);
 
+    const sin = a / c;
+    const theta = Math.asin(sin);
+
     ctx.clearRect(-offset.x, -offset.y, myCanvas.width, myCanvas.height);
     drawCoordinateGrid(ctx, offset);
 
+    drawText("sin = a/c " + sin.toFixed(2), {
+      x: -offset.x / 2,
+      y: offset.y * 0.7,
+    });
     drawLine(A, B);
     drawText("c:" + Math.round(c), average(A, B));
     drawLine(A, C);
     drawText("b:" + Math.round(b), average(A, C));
     drawLine(B, C);
     drawText("a:" + Math.round(a), average(B, C));
+
+    drawText(
+      "θ=" +
+        theta.toFixed(2) +
+        " (" +
+        Math.round(toDegree(theta)).toString().padStart(2, " ") +
+        "°)",
+      { x: offset.x / 2, y: offset.y * 0.7 }
+    );
+  }
+  function toDegree(rad) {
+    // 360 = 2Math.PI --> divide by 2 -- 180 = Math.PI
+    console.log("converting ", rad);
+    return (rad * 180) / Math.PI;
+  }
+  // wrote toTheta just in case. lol
+  function toTheta(deg) {
+    const a = toDegree(deg);
+    return (a * Math.PI) / 180;
   }
   function average(p1, p2) {
     return {
