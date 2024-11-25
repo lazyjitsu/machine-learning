@@ -5,7 +5,13 @@
   style="background-color: white"
 >
 </canvas>
-
+<canvas
+  id="chartCanvas"
+  width="600px"
+  height="600px"
+  style="background-color: white"
+>
+</canvas>
 <style>
   body {
     background-color: black;
@@ -16,14 +22,23 @@
 
 <script>
   const ctx = myCanvas.getContext("2d");
+  const chartCtx = chartCanvas.getContext("2d");
+
   const offset = {
     x: myCanvas.width / 2,
     y: myCanvas.height / 2,
+  };
+  const chartOffset = {
+    x: chartCanvas.width / 2,
+    y: chartCanvas.height / 2,
   };
   const A = { x: 0, y: 0 };
   const B = { x: 90, y: 120 };
   const C = { x: B.x, y: 0 };
   ctx.translate(offset.x, offset.y);
+  chartCtx.translate(chartOffset.x, chartOffset.y);
+  drawCoordinateGrid(chartCtx, chartOffset);
+
   update();
   document.onmousemove = (e) => {
     B.x = e.x - offset.x;
@@ -40,16 +55,38 @@
     const b = distance(A, C);
 
     const sin = a / c;
+    const cos = b / c;
+    const tan = sin / cos; // iow: a/b if u cancel out the c
+
     const theta = Math.asin(sin);
 
     ctx.clearRect(-offset.x, -offset.y, myCanvas.width, myCanvas.height);
     drawCoordinateGrid(ctx, offset);
 
-    drawText("sin = a/c " + sin.toFixed(2), {
-      x: -offset.x / 2,
-      y: offset.y * 0.7,
-    });
-
+    drawText(
+      "sin = a/c " + sin.toFixed(2),
+      {
+        x: -offset.x / 2,
+        y: offset.y * 0.6,
+      },
+      "red"
+    );
+    drawText(
+      "cos = b/c " + cos.toFixed(2),
+      {
+        x: -offset.x / 2,
+        y: offset.y * 0.5,
+      },
+      "blue"
+    );
+    drawText(
+      "tan = a/b " + tan.toFixed(2),
+      {
+        x: -offset.x / 2,
+        y: offset.y * 0.4,
+      },
+      "magenta"
+    );
     drawText(
       "θ=" +
         theta.toFixed(2) +
@@ -78,7 +115,10 @@
     }
     ctx.arc(0, 0, 20, start, end, !clockwise);
     ctx.stroke();
+
+    drawPoint({ x: theta, y: sin }, 4, "red");
   }
+
   function toDegree(rad) {
     // 360 = 2Math.PI --> divide by 2 -- 180 = Math.PI
     // console.log("converting ", rad);
@@ -119,10 +159,10 @@
     ctx.stroke();
   }
   function drawPoint(p, size = 20, color = "black") {
-    ctx.beginPath();
-    ctx.fillStyle = color;
-    ctx.arc(p.x, p.y, size / 2, 0, Math.PI * 2);
-    ctx.fill();
+    chartCtx.beginPath();
+    chartCtx.fillStyle = color;
+    chartCtx.arc(p.x, p.y, size / 2, 0, Math.PI * 2);
+    chartCtx.fill();
   }
   function drawCoordinateGrid(ctx, offset) {
     // Coordinate System
