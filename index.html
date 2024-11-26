@@ -117,6 +117,8 @@
     ctx.stroke();
     const chartScaler = chartOffset.y;
     drawPoint({ x: theta * chartScaler, y: sin * chartScaler }, 4, "red");
+    drawPoint({ x: theta * chartScaler, y: cos * chartScaler }, 4, "blue");
+    drawPoint({ x: theta * chartScaler, y: tan * chartScaler }, 4, "red");
   }
 
   function toDegree(rad) {
