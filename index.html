@@ -32,33 +32,35 @@
     x: chartCanvas.width / 2,
     y: chartCanvas.height / 2,
   };
+
+  let theta = Math.PI / 4; // 45 deg
+  const c = 100; // hypotenuse
+  //  c simplifies and we just left with the length of x and y
   const A = { x: 0, y: 0 };
-  const B = { x: 90, y: 120 };
+  const B = { x: Math.cos(theta) * c, y: Math.sin(theta) * c };
   const C = { x: B.x, y: 0 };
   ctx.translate(offset.x, offset.y);
   chartCtx.translate(chartOffset.x, chartOffset.y);
   drawCoordinateGrid(chartCtx, chartOffset);
 
   update();
-  document.onmousemove = (e) => {
-    B.x = e.x - offset.x;
-    B.y = e.y - offset.y;
+  document.onwheel = (e) => {
+    //console.log(-Math.sign(e.deltaY)); // make up positive and down negative
+    theta -= Math.sign(event.deltaY); // theta either 1 or -1
+    // don't think of theta as an angle...now its more like the distance traveled around the circle
+    B.x = Math.cos(theta) * c;
+    B.y = Math.sin(theta) * c;
 
     C.x = B.x;
+
     update();
   };
   drawCoordinateGrid(ctx, offset);
 
   function update() {
-    const c = distance(A, B);
-    const a = distance(B, C);
-    const b = distance(A, C);
-
-    const sin = a / c;
-    const cos = b / c;
-    const tan = sin / cos; // iow: a/b if u cancel out the c
-
-    const theta = Math.asin(sin);
+    const sin = Math.sin(theta);
+    const cos = Math.cos(theta);
+    const tan = Math.tan(theta); // iow: a/b if u cancel out the c
 
     ctx.clearRect(-offset.x, -offset.y, myCanvas.width, myCanvas.height);
     drawCoordinateGrid(ctx, offset);
@@ -95,12 +97,12 @@
         "°)",
       { x: offset.x / 2, y: offset.y * 0.7 }
     );
-    drawLine(A, B);
-    drawText("c:" + Math.round(c), average(A, B));
-    drawLine(A, C);
-    drawText("b:" + Math.round(b), average(A, C));
-    drawLine(B, C);
-    drawText("a:" + Math.round(a), average(B, C));
+    // drawLine(A, B);
+    // drawText("c:" + Math.round(c), average(A, B));
+    // drawLine(A, C, "blue");
+    // drawText("b:" + Math.round(b), average(A, C));
+    // drawLine(B, C, "red");
+    // drawText("a:" + Math.round(a), average(B, C));
 
     drawText("θ", A);
 
@@ -115,10 +117,10 @@
     }
     ctx.arc(0, 0, 20, start, end, !clockwise);
     ctx.stroke();
-    const chartScaler = chartOffset.y;
+    const chartScaler = chartOffset.y * 0.5;
     drawPoint({ x: theta * chartScaler, y: sin * chartScaler }, 4, "red");
     drawPoint({ x: theta * chartScaler, y: cos * chartScaler }, 4, "blue");
-    drawPoint({ x: theta * chartScaler, y: tan * chartScaler }, 4, "red");
+    drawPoint({ x: theta * chartScaler, y: tan * chartScaler }, 4, "magenta");
   }
 
   function toDegree(rad) {
