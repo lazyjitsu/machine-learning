@@ -8,7 +8,7 @@
 <canvas
   id="chartCanvas"
   width="600px"
-  height="600px"
+  height="100px"
   style="background-color: white"
 >
 </canvas>
@@ -46,8 +46,9 @@
   update();
   document.onwheel = (e) => {
     //console.log(-Math.sign(e.deltaY)); // make up positive and down negative
-    theta -= Math.sign(event.deltaY); // theta either 1 or -1
+    theta -= toRadians(Math.sign(event.deltaY)); // theta either 1 or -1
     // don't think of theta as an angle...now its more like the distance traveled around the circle
+
     B.x = Math.cos(theta) * c;
     B.y = Math.sin(theta) * c;
 
@@ -55,6 +56,7 @@
 
     update();
   };
+
   drawCoordinateGrid(ctx, offset);
 
   function update() {
@@ -97,30 +99,49 @@
         "°)",
       { x: offset.x / 2, y: offset.y * 0.7 }
     );
-    // drawLine(A, B);
-    // drawText("c:" + Math.round(c), average(A, B));
-    // drawLine(A, C, "blue");
-    // drawText("b:" + Math.round(b), average(A, C));
-    // drawLine(B, C, "red");
-    // drawText("a:" + Math.round(a), average(B, C));
+    console.log("Theta ", theta, Math.sin(theta), c);
+
+    drawLine(A, B);
+    drawText("c", average(A, B));
+    drawLine(A, C, "blue");
+    drawText("b", average(A, C));
+    drawLine(B, C, "red");
+    drawText("a", average(B, C));
 
     drawText("θ", A);
 
     ctx.beginPath();
     ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
-    const start = B.x > A.x ? 0 : Math.PI;
-    const clockwise = (B.y < C.y) ^ (B.x > A.x);
-    let end = B.y < C.y ? -theta : theta;
-    if (B.x < A.x) {
-      end = Math.PI - end;
-    }
-    ctx.arc(0, 0, 20, start, end, !clockwise);
+    // const start = B.x > A.x ? 0 : Math.PI;
+    // const clockwise = (B.y < C.y) ^ (B.x > A.x);
+    // let end = B.y < C.y ? -theta : theta;
+    // if (B.x < A.x) {
+    //   end = Math.PI - end;
+    // }
+    // ctx.arc(0, 0, 20,start, end, !clockwise);
+    ctx.arc(0, 0, c, 0, theta);
+
     ctx.stroke();
     const chartScaler = chartOffset.y * 0.5;
-    drawPoint({ x: theta * chartScaler, y: sin * chartScaler }, 4, "red");
-    drawPoint({ x: theta * chartScaler, y: cos * chartScaler }, 4, "blue");
-    drawPoint({ x: theta * chartScaler, y: tan * chartScaler }, 4, "magenta");
+    drawPoint(
+      chartCtx,
+      { x: theta * chartScaler, y: sin * chartScaler },
+      4,
+      "red"
+    );
+    drawPoint(
+      chartCtx,
+      { x: theta * chartScaler, y: cos * chartScaler },
+      4,
+      "blue"
+    );
+    drawPoint(
+      chartCtx,
+      { x: theta * chartScaler, y: tan * chartScaler },
+      4,
+      "magenta"
+    );
   }
 
   function toDegree(rad) {
@@ -129,9 +150,8 @@
     return (rad * 180) / Math.PI;
   }
   // wrote toTheta just in case. lol
-  function toTheta(deg) {
-    const a = toDegree(deg);
-    return (a * Math.PI) / 180;
+  function toRadians(deg) {
+    return (deg * Math.PI) / 180;
   }
   function average(p1, p2) {
     return {
@@ -162,11 +182,11 @@
     ctx.lineTo(p2.x, p2.y);
     ctx.stroke();
   }
-  function drawPoint(p, size = 20, color = "black") {
-    chartCtx.beginPath();
-    chartCtx.fillStyle = color;
-    chartCtx.arc(p.x, p.y, size / 2, 0, Math.PI * 2);
-    chartCtx.fill();
+  function drawPoint(ctx, p, size = 20, color = "black") {
+    ctx.beginPath();
+    ctx.fillStyle = color;
+    ctx.arc(p.x, p.y, size / 2, 0, Math.PI * 2);
+    ctx.fill();
   }
   function drawCoordinateGrid(ctx, offset) {
     // Coordinate System
