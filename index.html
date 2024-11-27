@@ -65,7 +65,7 @@
     const tan = Math.tan(theta); // iow: a/b if u cancel out the c
 
     const T = {
-      x: Math.hypot(1, tan) * c,
+      x: Math.sign(cos) * Math.hypot(1, tan) * c,
       y: 0,
     };
     ctx.clearRect(-offset.x, -offset.y, myCanvas.width, myCanvas.height);
@@ -88,7 +88,7 @@
       "blue"
     );
     drawText(
-      "tan = a/b " + tan.toFixed(2),
+      "tan" + tan.toFixed(2),
       {
         x: -offset.x / 2,
         y: offset.y * 0.4,
@@ -146,11 +146,8 @@
   }
 
   function toDegree(rad) {
-    // 360 = 2Math.PI --> divide by 2 -- 180 = Math.PI
-    // console.log("converting ", rad);
     return (rad * 180) / Math.PI;
   }
-  // wrote toTheta just in case. lol
   function toRadians(deg) {
     return (deg * Math.PI) / 180;
   }
