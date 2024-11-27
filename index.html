@@ -10,7 +10,19 @@
 <script>
   const ctx = myCanvas.getContext('2d');
   const point={x:90,y:120};
-  ctx.fillStyle="white";
-  ctx.arc(point.x,point.y,5,0,Math.PI*2);
-  ctx.fill();
+  const offset = {x:myCanvas.width/2,y:myCanvas.height/2};
+  ctx.translate(offset.x,offset.y);
+
+
+  drawPoint(point);
+
+  function drawPoint(loc,size=10,color="white") {
+    ctx.beginPath();
+    ctx.fillStyle=color;
+    ctx.arc(loc.x,loc.y,size/2,0,Math.PI*2);
+    ctx.fill();
+  }
+
+
+
 </script>
