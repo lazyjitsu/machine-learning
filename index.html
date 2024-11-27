@@ -12,10 +12,19 @@
   const point={x:90,y:120};
   const offset = {x:myCanvas.width/2,y:myCanvas.height/2};
   ctx.translate(offset.x,offset.y);
-
+  drawCoordinateSystem(ctx);
 
   drawPoint(point);
-
+  
+  function drawCoordinateSystem(ctx,color="lightgray") {
+    ctx.beginPath();
+    ctx.strokeStyle=color;
+    ctx.moveTo(-offset.x,0);
+    ctx.lineTo(offset.x,0);
+    ctx.moveTo(0,-offset.y);
+    ctx.lineTo(0,offset.y)
+    ctx.stroke();
+  }
   function drawPoint(loc,size=10,color="white") {
     ctx.beginPath();
     ctx.fillStyle=color;
