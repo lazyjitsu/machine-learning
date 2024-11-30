@@ -29,13 +29,11 @@
 
     drawLine({x:0,y:0},{x:50,y:-120});
     drawLine({x:50,y:-120},{x:150,y:-220},"orange");
-    console.log('Maggy: ',distance(point),Math.hypot(point.x,point.y));
-    console.log('Direction: ',direction(point));
-    const {mag,dir} = toPolar(point);
-    console.log('Mag: ' + mag + ' And Direction: '+dir);
-    const same = toXY({mag,dir});
+    const same = toXY(toPolar(point));
     console.log("Same: ",same);
-    drawPoint(same,5,'blue');
+    drawPoint(same,5,"blue");
+    drawArrow(point,22,"green");
+
   }
   function toXY({mag,dir}) {
     return {
@@ -52,7 +50,7 @@
     // the parameters are different
     return Math.atan2(y,x);
   }
-  
+
   function magnitude({x,y}) { // object destructuring
     return Math.hypot(x,y);
   }
@@ -64,6 +62,22 @@
   }
   function distance(p) {
     return Math.sqrt(p.x**2+p.y**2);
+  }
+  function drawArrow(tip,size=50,color="green") {
+    const {dir,mag} = toPolar(tip);
+    const v1 = { dir:dir+Math.PI/2,mag:size/2 };
+    const p1 = toXY(v1);
+    const t1 = {
+      x:p1.x + tip.x,
+      y:p1.y + tip.y
+    }
+    drawPoint(t1,5);
+    ctx.beginPath();
+    ctx.strokeStyle=color;
+    ctx.moveTo(0,0);
+    ctx.lineTo(tip.x,tip.y);
+    ctx.strokeStyle=color;
+    ctx.stroke();
   }
   function drawCoordinateSystem(ctx,color="lightgray") {
     ctx.beginPath();
