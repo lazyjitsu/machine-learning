@@ -23,7 +23,7 @@
     ctx.clearRect(-offset.x,-offset.y,myCanvas.width,myCanvas.height);
     drawCoordinateSystem(ctx);
 
-    drawPoint(point);
+    // drawPoint(point);
     drawPoint({x:50,y:-120},10,"black");
     drawPoint({x:150,y:-220},10,"black");
 
@@ -31,7 +31,7 @@
     drawLine({x:50,y:-120},{x:150,y:-220},"orange");
     const same = toXY(toPolar(point));
     // console.log("Same: ",same);
-    drawPoint(same,5,"blue");
+    // drawPoint(same,5,"blue");
     drawArrow(point,22,"white");
 
   }
@@ -68,22 +68,13 @@
     const {dir,mag} = toPolar(tip);
     const v1 = { dir:dir+Math.PI*0.8,mag:size/2 };
     const p1 = toXY(v1);
-    // const t1 = {
-    //   // x:p1.x + tip.x,
-    //   // y:p1.y + tip.y
-    //   x:addVectors(p1,tip),
-    //   y:addVectors(p1,tip)
-    // }
     const t1 = addVectors(p1,tip);
-    drawPoint(t1,5);
     const v2 = { dir:dir-Math.PI*0.8,mag:size/2 };
     const p2 = toXY(v2);
-    // const t2 = {
-    //   x:p2.x + tip.x,
-    //   y:p2.y + tip.y
-    // }
     const t2 = addVectors(p2,tip);
-    drawPoint(t2,5);
+    drawLine(t1,t2);
+    drawLine(t1,point);
+    drawLine(t2,point);
 
     ctx.beginPath();
     ctx.strokeStyle=color;
