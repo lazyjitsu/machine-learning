@@ -10,6 +10,7 @@
 <script>
   const ctx = myCanvas.getContext('2d');
   const point={x:90,y:120};
+  const G = {x:0,y:50};
   const offset = {x:myCanvas.width/2,y:myCanvas.height/2};
   ctx.translate(offset.x,offset.y);
   document.onmousemove=(event) => {
@@ -32,8 +33,8 @@
     const same = toXY(toPolar(point));
     // console.log("Same: ",same);
     // drawPoint(same,5,"blue");
-    drawArrow(point,22,"white");
-
+    drawArrow(point,15,"white");
+    drawArrow(G);
   }
   function toXY({mag,dir}) {
     return {
@@ -64,7 +65,7 @@
   function distance(p) {
     return Math.sqrt(p.x**2+p.y**2);
   }
-  function drawArrow(tip,size=50,color="green") {
+  function drawArrow(tip,size=20,color="green") {
     const {dir,mag} = toPolar(tip);
     const v1 = { dir:dir+Math.PI*0.8,mag:size/2 };
     const p1 = toXY(v1);
@@ -72,15 +73,23 @@
     const v2 = { dir:dir-Math.PI*0.8,mag:size/2 };
     const p2 = toXY(v2);
     const t2 = addVectors(p2,tip);
-    drawLine(t1,t2);
-    drawLine(t1,point);
-    drawLine(t2,point);
+    // drawLine(t1,t2);
+    // drawLine(t1,point);
+    // drawLine(t2,point);
 
     ctx.beginPath();
     ctx.strokeStyle=color;
     ctx.moveTo(0,0);
     ctx.lineTo(tip.x,tip.y);
     ctx.strokeStyle=color;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(tip.x,tip.y);
+    ctx.lineTo(t1.x,t1.y);
+    ctx.lineTo(t2.x,t2.y);
+    ctx.closePath();
+    ctx.fillStyle=color;
+    ctx.fill();
     ctx.stroke();
   }
   function drawCoordinateSystem(ctx,color="lightgray") {
