@@ -35,6 +35,7 @@
     console.log('Mag: ' + mag + ' And Direction: '+dir);
     const same = toXY({mag,dir});
     console.log("Same: ",same);
+    drawPoint(same,5,'blue');
   }
   function toXY({mag,dir}) {
     return {
@@ -46,8 +47,12 @@
 
   function direction({x,y}) {
     //given the sides, y and x, give me the angle!
-    return Math.atan(y/x);
+    // Math.atan(y/x) gives us (-90deg, +90deg) --> (-Math.PI/2,+Math.PI/2)
+    //  return Math.atan(y/x);
+    // the parameters are different
+    return Math.atan2(y,x);
   }
+  
   function magnitude({x,y}) { // object destructuring
     return Math.hypot(x,y);
   }
