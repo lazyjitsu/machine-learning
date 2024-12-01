@@ -30,11 +30,12 @@
 
     drawLine({x:0,y:0},{x:50,y:-120});
     drawLine({x:50,y:-120},{x:150,y:-220},"orange");
-    const same = toXY(toPolar(point));
-    // console.log("Same: ",same);
-    // drawPoint(same,5,"blue");
-    drawArrow(point,15,"white");
-    drawArrow(G);
+    
+    drawArrow({x:0,y:0},point);
+    drawArrow({x:0,y:0},G)
+    const resultAdd = addVectors(point,G);
+    drawArrow({x:0,y:0},resultAdd);
+    drawArrow(point,resultAdd);
   }
   function toXY({mag,dir}) {
     return {
@@ -65,21 +66,17 @@
   function distance(p) {
     return Math.sqrt(p.x**2+p.y**2);
   }
-  function drawArrow(tip,size=20,color="green") {
-    const {dir,mag} = toPolar(tip);
+  function drawArrow(tail,tip,size=20,color="green") {
+    const {dir,mag} = toPolar(subtractVectors(tip,tail));
     const v1 = { dir:dir+Math.PI*0.8,mag:size/2 };
     const p1 = toXY(v1);
     const t1 = addVectors(p1,tip);
     const v2 = { dir:dir-Math.PI*0.8,mag:size/2 };
     const p2 = toXY(v2);
     const t2 = addVectors(p2,tip);
-    // drawLine(t1,t2);
-    // drawLine(t1,point);
-    // drawLine(t2,point);
-
     ctx.beginPath();
     ctx.strokeStyle=color;
-    ctx.moveTo(0,0);
+    ctx.moveTo(tail.x,tail.y);
     ctx.lineTo(tip.x,tip.y);
     ctx.strokeStyle=color;
     ctx.stroke();
@@ -104,10 +101,15 @@
     ctx.setLineDash([]);
   }
   function addVectors(v1,v2) {
-    console.log('vect received ',v1,v2);
     return {
       x: v1.x + v2.x,
       y: v1.y + v2.y
+    }
+  }
+  function subtractVectors(v1,v2) {
+    return {
+      x: v1.x - v2.x,
+      y: v1.y - v2.y
     }
   }
   function drawPoint(loc,size=10,color="white") {
