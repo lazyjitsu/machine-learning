@@ -44,7 +44,7 @@
     console.log('rs: ',resultSub,normalize(resultSub));
 
     // a vector with a magnitude of 1
-    const scaledSub=normalize(resultSub);
+    const scaledSub=scale(normalize(resultSub),50);
     drawArrow({x:0,y:0},scaledSub);
   }
   function toXY({mag,dir}) {
