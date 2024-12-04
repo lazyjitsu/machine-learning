@@ -19,4 +19,11 @@ button {
     background-color: navy;
     color:white;
 }
-
+button:hover {
+    background-color: mediumblue;
+}
+button:disabled,
+button:disabled:hover {
+    background-color: gray;
+    cursor:default;
+}

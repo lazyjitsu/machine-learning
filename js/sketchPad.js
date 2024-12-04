@@ -17,6 +17,8 @@ class SketchPad {
         this.ctx=this.canvas.getContext("2d");
         this.paths=[];
         this.isDrawing=false;
+
+        this.#reDraw(); // ensure the button is set right (undo)
         this.#addEventListeners()
 
     }
