@@ -41,10 +41,11 @@
     const resultSub=subtractVectors(point,G);
     drawArrow({x:0,y:0},resultSub,20,"white");
     drawArrow(G,point,20,"white")
+    console.log('rs: ',resultSub,normalize(resultSub));
 
-    const scaledSub=scale(resultSub,50/magnitude(resultSub));
+    // a vector with a magnitude of 1
+    const scaledSub=normalize(resultSub);
     drawArrow({x:0,y:0},scaledSub);
-
   }
   function toXY({mag,dir}) {
     return {
@@ -62,6 +63,9 @@
     return Math.atan2(y,x);
   }
 
+  function normalize(p) {
+    return scale(p,1/magnitude(p));
+  }
 
   function magnitude({x,y}) { // object destructuring
     return Math.hypot(x,y);
