@@ -16,13 +16,13 @@ class SketchPad {
 
     }
     #addEventListeners() {
-        document.onmousedown = (e) => {            
+        this.onmousedown = (e) => {            
             const mouse = this.#getMouse(e);
             // re-initalized after every mouse down event
             this.paths.push([mouse]);
             this.isDrawing=true;
         }
-        document.onmousemove = (e) => {
+        this.onmousemove = (e) => {
             if(this.isDrawing) {
                 const mouse = this.#getMouse(e);
                 const lastPath=this.paths[this.paths.length-1];
@@ -32,8 +32,22 @@ class SketchPad {
             }
 
         }
-        document.onmouseup = () => {
+
+        this.onmouseup = () => {
             this.isDrawing=false;
+        }
+
+        this.canvas.ontouchstart=(e)=> {
+            const loc=e.touches[0];
+            this.canvas.onmousedown(loc);
+        }
+        this.canvas.ontouchmove=(e)=> {
+            const loc=e.touches[0];
+            this.canvas.onmousemove(loc);
+        }
+
+        this.canvas.ontouchend=() => {
+            this.canvas.onmouseup();
         }
     }
     #reDraw=(e) => {
