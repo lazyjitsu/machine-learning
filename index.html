@@ -36,10 +36,11 @@
     ctx.stroke();
     ctx.setLineDash([]);
 
-    drawArrow({x:0,y:0},resultAdd,20,"white");
+    drawArrow({x:0,y:0},resultAdd,20,"red");
 
     const resultSub=subtractVectors(point,G);
-    drawArrow({x:0,y:0},resultSub);
+    drawArrow({x:0,y:0},resultSub,20,"white");
+    drawArrow(G,point,20,"white")
   }
   function toXY({mag,dir}) {
     return {
