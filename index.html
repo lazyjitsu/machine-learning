@@ -25,8 +25,7 @@
     drawCoordinateSystem(ctx);
 
     
-    drawArrow({x:0,y:0},point,20,"red");
-    drawArrow({x:0,y:0},G,20,"red");
+
     const resultAdd=addVectors(point,G);
     ctx.beginPath();
     ctx.setLineDash([3,3]);
@@ -46,6 +45,11 @@
     // a vector with a magnitude of 1
     const scaledSub=scale(normalize(resultSub),50);
     drawArrow({x:0,y:0},scaledSub);
+    console.log('Dot: ',dot(G,point));
+    console.log('If vectors are pointing in same direction, dot product is 1, it opposit direction,-1, if 0, its orthogonal (i.e.pi/2,90deg,right-angeled)',dot(normalize(G),normalize(point)));
+    // To get the real angle we could do Math.cos(dot(normalize(G),normalize(point)))
+    drawArrow({x:0,y:0},point,20,"red");
+    drawArrow({x:0,y:0},G,20,"red");
   }
   function toXY({mag,dir}) {
     return {
@@ -62,7 +66,10 @@
     // the parameters are different
     return Math.atan2(y,x);
   }
-
+  // The Dot Product
+  function dot(p1,p2) {
+    return p1.x*p2.x + p1.y * p2.y
+  }
   function normalize(p) {
     return scale(p,1/magnitude(p));
   }
