@@ -41,6 +41,10 @@
     const resultSub=subtractVectors(point,G);
     drawArrow({x:0,y:0},resultSub,20,"white");
     drawArrow(G,point,20,"white")
+
+    const scaledSub=scale(resultSub,50/magnitude(resultSub));
+    drawArrow({x:0,y:0},scaledSub);
+
   }
   function toXY({mag,dir}) {
     return {
@@ -104,6 +108,12 @@
     ctx.setLineDash([5,4]);
     ctx.stroke();
     ctx.setLineDash([]);
+  }
+  function scale(p,scaler){
+    return {
+      x:p.x * scaler,
+      y:p.y * scaler
+    }
   }
   function addVectors(v1,v2) {
     return {
