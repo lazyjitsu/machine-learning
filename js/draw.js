@@ -10,5 +10,7 @@ draw.path = (ctx,path,color="black") => {
         ctx.lineTo(...path[i]);
         ctx.stroke();
     }
+    ctx.lineCap="round";
+    ctx.lineJoin="round";
     ctx.stroke();
 }   
