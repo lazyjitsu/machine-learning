@@ -27,6 +27,7 @@ class SketchPad {
                 const mouse = this.#getMouse(e);
                 this.path.push(mouse);
                 console.log(this.path.length,mouse);
+                this.#reDraw();
             }
 
         }
@@ -34,7 +35,11 @@ class SketchPad {
             this.isDrawing=false;
         }
     }
-    #getMouse = (e) => {
+    #reDraw=(e) => {
+        this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+        draw.path(this.ctx,this.path);
+    }
+    #getMouse=(e) => {
         const rect = this.canvas.getBoundingClientRect();
         return [
             Math.round(e.clientX-rect.left),
