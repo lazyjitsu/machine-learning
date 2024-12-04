@@ -34,20 +34,12 @@
     ctx.lineTo(resultAdd.x,resultAdd.y);
     ctx.lineTo(point.x,point.y);
     ctx.stroke();
-    ctx.setLinDash([]);
-    
+    ctx.setLineDash([]);
+
     drawArrow({x:0,y:0},resultAdd,20,"white");
 
-
-    ctx.beginPath();
-    ctx.setLineDash([3,3]);
-    ctx.moveTo(G.x,G.y);
-    ctx.lineTo(resultAdd.x,resultAdd.y);
-    ctx.lineRTo(point.x,point.y);
-    ctx.stroke();
-    ctx.setLinDash([]);
-    drawArrow({x:0,y:0},resultAdd,"red");
-    drawArrow(point,resultAdd);
+    const resultSub=subtractVectors(point,G);
+    drawArrow({x:0,y:0},resultSub);
   }
   function toXY({mag,dir}) {
     return {
