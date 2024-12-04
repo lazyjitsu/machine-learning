@@ -8,9 +8,14 @@ draw.path = (ctx,path,color="black") => {
     // ctx.lineTo(...path[path.length-1]);
     for (let i =1; i < path.length;i++) {
         ctx.lineTo(...path[i]);
-        ctx.stroke();
     }
     ctx.lineCap="round";
     ctx.lineJoin="round";
     ctx.stroke();
 }   
+
+draw.paths = (ctx,paths,color="black") => {
+    for (const path of paths) {
+        draw.path(ctx,path,color);
+    }
+}
