@@ -10,6 +10,21 @@ class SketchPad {
         container.append(this.canvas);
 
         this.ctx=this.canvas.getContext("2d");
-        
+
+        this.#addEventListeners()
+
+    }
+    #addEventListeners() {
+        document.onclick = (e) => {
+            const rect = this.canvas.getBoundingClientRect();
+            // console.log("E: ",e.x-rect.left,e.y-rect.top);
+            const mouse = [
+                Math.round(e.clientX-rect.left),
+                Math.round(e.clientY-rect.top)
+            ]
+            console.log(mouse);
+            this.path=[mouse];
+            this.isDrawing=true;
+        }
     }
 }
