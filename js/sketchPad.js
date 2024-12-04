@@ -16,32 +16,29 @@ class SketchPad {
 
     }
     #addEventListeners() {
-        document.onmousedown = (e) => {
-            const rect = this.canvas.getBoundingClientRect();
-            // console.log("E: ",e.x-rect.left,e.y-rect.top);
-            const mouse = [
-                Math.round(e.clientX-rect.left),
-                Math.round(e.clientY-rect.top)
-            ]
-            console.log(mouse);
+        document.onmousedown = (e) => {            
+            const mouse = this.#getMouse(e);
             // re-initalized after every mouse down event
             this.path=[mouse];
             this.isDrawing=true;
         }
         document.onmousemove = (e) => {
             if(this.isDrawing) {
-                const rect = this.canvas.getBoundingClientRect();
-                const mouse = [
-                    Math.round(e.clientX-rect.left),
-                    Math.round(e.clientY-rect.top)
-                ]
+                const mouse = this.#getMouse(e);
                 this.path.push(mouse);
-                console.log(this.path.length);
+                console.log(this.path.length,mouse);
             }
 
         }
         document.onmouseup = () => {
             this.isDrawing=false;
         }
+    }
+    #getMouse = (e) => {
+        const rect = this.canvas.getBoundingClientRect();
+        return [
+            Math.round(e.clientX-rect.left),
+            Math.round(e.clientY-rect.top)
+        ]
     }
 }
