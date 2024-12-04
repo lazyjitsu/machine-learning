@@ -10,7 +10,7 @@
 <script>
   const ctx = myCanvas.getContext('2d');
   const point={x:90,y:120};
-  const G = {x:0,y:50};
+  const G = {x:20,y:50};
   const offset = {x:myCanvas.width/2,y:myCanvas.height/2};
   ctx.translate(offset.x,offset.y);
   document.onmousemove=(event) => {
@@ -24,17 +24,23 @@
     ctx.clearRect(-offset.x,-offset.y,myCanvas.width,myCanvas.height);
     drawCoordinateSystem(ctx);
 
-    // drawPoint(point);
-    drawPoint({x:50,y:-120},10,"black");
-    drawPoint({x:150,y:-220},10,"black");
-
-    drawLine({x:0,y:0},{x:50,y:-120});
-    drawLine({x:50,y:-120},{x:150,y:-220},"orange");
     
-    drawArrow({x:0,y:0},point);
-    drawArrow({x:0,y:0},G)
-    const resultAdd = addVectors(point,G);
-    drawArrow({x:0,y:0},resultAdd);
+    drawArrow({x:0,y:0},point,20,"red");
+    drawArrow({x:0,y:0},G,20,"red");
+    const resultAdd=addVectors(point,G);
+
+    drawArrow({x:0,y:0},resultAdd,20,"white");
+    drawArrow(point,resultAdd);
+    drawArrow(G,resultAdd,20,"black");
+
+    ctx.beginPath();
+    ctx.setLineDash([3,3]);
+    ctx.moveTo(G.x,G.y);
+    ctx.lineTo(resultAdd.x,resultAdd.y);
+    ctx.lineRTo(point.x,point.y);
+    ctx.stroke();
+    ctx.setLinDash([]);
+    drawArrow({x:0,y:0},resultAdd,"red");
     drawArrow(point,resultAdd);
   }
   function toXY({mag,dir}) {
