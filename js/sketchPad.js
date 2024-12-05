@@ -18,9 +18,14 @@ class SketchPad {
         this.paths=[];
         this.isDrawing=false;
 
-        this.#reDraw(); // ensure the button is set right (undo)
+        this.reset();
         this.#addEventListeners()
 
+    }
+    reset() {
+        this.paths=[];
+        this.isDrawing=false;
+        this.#reDraw();
     }
     #addEventListeners() {
         this.canvas.onmousedown = (e) => {            
