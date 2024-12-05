@@ -42,6 +42,43 @@
         const label=labels[index];
         instructions.innerHTML="Please draw a " + label;
         console.log("Datum: ",data);
+        advanceBtn.innerHTML="NExT";
+        advanceBtn.onclick=next;
+      }
+      function next() {
+        if(sketchPad.paths.length == 0) {
+          alert("Draw something first dude!");
+          return;
+        }
+        const label=labels[index];
+        data.drawings[label] = sketchPad.paths;
+        sketchPad.reset();
+        index++;
+        if(index<labels.length) {
+          const nextLabel=labels[index];
+          instructions.innerHTML="Please draw a " + nextLabel;
+        } else {
+          sketchPadContainer.style.visibility="hidden";
+          instructions.innerHTML="Thank you, you're done!";
+          advanceBtn.innerHTML="SaVE";
+          advanceBtn.onclick=save;
+        }
+    
+      }
+      function save() {
+        advanceBtn.style.display='none';
+        instructions.innerHTML="Take your downloaded file and place it alongside the others in the dataset!";
+
+        const element=document.createElement('a');
+        element.setAttribute('href','data:text/plain;charset=utf-8,'+encodeURIComponent(JSON.stringify(data)))
+        const fileName=data.session+".json";
+        element.setAttribute('download',fileName);
+        // Radu not sure of a better way to do this
+        element.style.display='none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+
       }
     </script>
 </body>
