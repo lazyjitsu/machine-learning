@@ -1,0 +1,15 @@
+{
+  "name": "visualizer",
+  "version": "1.0.0",
+  "main": "dataset_generator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cairo": "^0.1.0-alpha.3",
+    "gyp": "^0.3.0"
+  }
+}
