@@ -32,7 +32,7 @@ fileNames.forEach(fn=> {
             JSON.stringify(paths)
         )
         generateImageFile(
-            constants.IMG_DIR+id+".png",
+            constants.IMG_DIR+"/"+id+".png",
             paths)
         // 8 file contains 8 drawings 
         utils.printProgress(id,fileNames.length*8);
