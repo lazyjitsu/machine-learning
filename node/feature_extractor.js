@@ -27,7 +27,12 @@ const featureNames=["Path Count","Point Count"];
 fs.writeFileSync(constants.FEATURES,
     JSON.stringify({
         featureNames,
-        samples
+        samples:samples.map(s=>{
+            return {
+                point:s.point,
+                label:s.label
+            }
+        })
     })
 )
 
