@@ -1,16 +1,12 @@
 const draw=require('../common/draw.js');
-// `npm install canvas` to make this js generator work.
+const constants = require('../common/constants.js');
+const utils = require('../common/utils.js');
+
 const {createCanvas}=require('canvas');
 const canvas=createCanvas(400,400);
 const ctx=canvas.getContext('2d');
 
-const constants = {};
-constants.DATA_DIR = "../data";
-constants.RAW_DIR = constants.DATA_DIR + "/raw";
-constants.DATASET_DIR=constants.DATA_DIR+"/dataset";
-constants.JSON_DIR=constants.DATASET_DIR+"/json";
-constants.IMG_DIR=constants.DATASET_DIR+"/img";
-constants.SAMPLES=constants.DATASET_DIR+"/samples.json";
+
 
 const fs = require('fs');
 
@@ -35,10 +31,12 @@ fileNames.forEach(fn=> {
             constants.JSON_DIR+"/"+id+".json",
             JSON.stringify(paths)
         )
-        id++;
         generateImageFile(
             constants.IMG_DIR+id+".png",
             paths)
+        // 8 file contains 8 drawings 
+        utils.printProgress(id,fileNames.length*8);
+        id++;
     }
 });
 
