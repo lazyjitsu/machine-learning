@@ -37,7 +37,7 @@
             }
         }
 
-        google.charts.load('current',{'packages':['corechart']});
+        google.charts.load('current',{'packages':['corechart','scatter']});
         google.charts.setOnLoadCallback(()=>{
             const data=new google.visualization.DataTable();
             data.addColumn('number',featureNames[0]);
@@ -48,8 +48,9 @@
                 ...s.point,
                 utils.styles[s.label]
                 ]));
-            const chart =new google.visualization.ScatterChart(chartContainer);
-            chart.draw(data,options);
+
+            const chart =new google.charts.Scatter(chartContainer);
+            chart.draw(data,google.charts.Scatter.convertOptions(options));
         })
     </script>
 
