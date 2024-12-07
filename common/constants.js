@@ -9,7 +9,6 @@ constants.JS_OBJECTS="../common/js_objects";
 constants.SAMPLES_JS=constants.JS_OBJECTS+"/samples.js";
 
 
-
 if(typeof module!== 'undefined') {
     module.exports=constants;
 }
