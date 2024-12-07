@@ -42,8 +42,12 @@
             const data=new google.visualization.DataTable();
             data.addColumn('number',featureNames[0]);
             data.addColumn('number',featureNames[1]);
-            data.addRows(samples.map(s=>s.point));
-
+            data.addColumn({'type':'string','role':'style'});
+            // because we now have 3 columns, we need 3 points
+            data.addRows(samples.map(s=> [
+                ...s.point,
+                utils.styles[s.label]
+                ]));
             const chart =new google.visualization.ScatterChart(chartContainer);
             chart.draw(data,options);
         })
