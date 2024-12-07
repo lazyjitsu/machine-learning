@@ -36,10 +36,12 @@
             icon:'image'
         };
         graphics.generateImages(utils.styles);
+
         const chart=new Chart(
             chartContainer,
             samples,
-            options
+            options,
+            handleClick
         )
     </script>
 

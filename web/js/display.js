@@ -30,3 +30,15 @@ function createRow(container,studentName,samples) {
         row.appendChild(sampleContainer);
     }
 }
+
+function handleClick(sample) {
+    [...document.querySelectorAll('.emphasize')].
+        forEach((e)=>e.classList.remove('emphasize'));
+    const el=document.getElementById("sample_"+sample.id);
+    el.classList.add("emphasize");
+    el.scrollIntoView({
+        behavior:'auto',
+        block:'center'
+    })
+
+}
