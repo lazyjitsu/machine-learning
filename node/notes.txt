@@ -1,0 +1,6 @@
+the js_objects/samples.js is non-standard. The reason it was used (per Radu) is:
+1. Avoids CORS
+2. Web Server is too much trouble
+3. Live Server is buggy
+
+
