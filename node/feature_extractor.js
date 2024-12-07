@@ -36,4 +36,5 @@ fs.writeFileSync(constants.FEATURES,
     })
 )
 
+fs.writeFileSync(constants.FEATURES_JS,`const features= ${JSON.stringify({featureNames,samples})}`)
 console.log("Extraction completed.")
