@@ -1,0 +1,13 @@
+body {
+    font-family: Arial;
+    background-color: skyblue;
+    margin:0;
+}
+table,td {
+    border: 2px solid white;
+    padding:5px;
+    border-collapse: collapse;
+}
+thead {
+    font-weight: bold;;
+}

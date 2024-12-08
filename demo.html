@@ -29,6 +29,25 @@
         }
         console.log('ss ',samples);
         console.table(samples.map(s=>s.point))
+
+        const header=dataTable.createTHead();
+        const tr=header.insertRow();
+        // and in this roll let's insert a cell
+        tr.insertCell().innerHTML="Id";
+        tr.insertCell().innerHTML="Label";
+        tr.insertCell().innerHTML="Km";
+        tr.insertCell().innerHTML="Price";
+
+        const body=dataTable.createTBody();
+        for(const sample of samples) {
+            const tr=body.insertRow();
+            tr.insertCell().innerHTML=sample.id;
+            tr.insertCell().innerHTML=sample.label;
+            tr.insertCell().innerHTML=sample.point[0].toFixed(2);
+            tr.insertCell().innerHTML=sample.point[1].toFixed(2);
+
+        }
+
     </script>
 </body>
 </html>
