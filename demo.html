@@ -19,8 +19,8 @@
         for (let i = 1; i <=N; i++) {
             const type=Math.random() < 0.5? "basic":"sport";
             const km=math.lerp(3000,300000,Math.random());
-            const price=math.lerp(9000,900,Math.random())
-
+            const t = math.inverseLerp(3000,300000,km);
+            const price=math.lerp(9000,900,t);
             samples.push({
                 id:i,
                 label:type,
@@ -43,8 +43,8 @@
             const tr=body.insertRow();
             tr.insertCell().innerHTML=sample.id;
             tr.insertCell().innerHTML=sample.label;
-            tr.insertCell().innerHTML=sample.point[0].toFixed(2);
-            tr.insertCell().innerHTML=sample.point[1].toFixed(2);
+            tr.insertCell().innerHTML=math.format(sample.point[0]);
+            tr.insertCell().innerHTML=math.format(sample.point[1]);
 
         }
 
