@@ -11,3 +11,7 @@ math.inverseLerp=(a,b,v) => {
 math.format=(n,dec=0) => {
     return n.toFixed(dec);
 }
+
+math.remap = (oldA,oldB,newA,newB,v) => {
+    return math.lerp(newA,newB,math.inverseLerp(oldA,oldB,v));
+}
