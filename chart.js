@@ -65,12 +65,13 @@ class Chart {
         const {ctx,samples,dataBounds,pixelBounds} = this;
         for (const sample of samples) {
             const {point} = sample;
-            console.log('pt ',point);
+            // console.log('pt ',point);
             const pixelLoc = [
                 math.remap(dataBounds.left,dataBounds.right,pixelBounds.left,pixelBounds.right,point[0]),
                 math.remap(dataBounds.top,dataBounds.bottom,pixelBounds.top,pixelBounds.bottom,point[1])
 
-            ]
+            ];
+            graphics.drawPoint(ctx,pixelLoc);
         }
     }
 }

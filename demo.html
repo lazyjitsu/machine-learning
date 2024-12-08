@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Chart</title>
-    <link rel="stylesheet" href="style.css" class="ref">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Custom Chart</h1>
     <div id="chartContainer"></div>
     <table id="dataTable"></table>
+    <script src="graphics.js"></script>
     <script src="math.js"></script>
     <script src="chart.js"></script>
 
     <script>
 
-        const N = 100;
+        const N = 1000;
         const samples = [];
         for (let i = 1; i <=N; i++) {
             const type=Math.random() < 0.5? "basic":"sport";
@@ -61,7 +62,7 @@
             tr.insertCell().innerHTML=math.format(sample.point[1]);
 
         }
-        console.log(math.remap(1,100,2,200,30))
+        // console.log(math.remap(1,100,2,200,30))
     </script>
 </body>
 </html>
