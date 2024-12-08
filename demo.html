@@ -33,7 +33,7 @@
         }
 
         const options = {
-            size:250,
+            size:500,
             axesLabels:["Kilometers","Price"],
             styles: {
                 basic: 'gray',
@@ -58,8 +58,8 @@
             const tr=body.insertRow();
             tr.insertCell().innerHTML=sample.id;
             tr.insertCell().innerHTML=sample.label;
-            tr.insertCell().innerHTML=math.format(sample.point[0]);
-            tr.insertCell().innerHTML=math.format(sample.point[1]);
+            tr.insertCell().innerHTML=math.formatNumber(sample.point[0]);
+            tr.insertCell().innerHTML=math.formatNumber(sample.point[1]);
 
         }
         // console.log(math.remap(1,100,2,200,30))

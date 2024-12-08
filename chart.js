@@ -20,9 +20,11 @@ class Chart {
         this.dataBounds=this.#getDataBounds();
 
         this.#draw();
-
     }
 
+    #addEventListners() {
+
+    }
     #getPixelBounds() {
         const {canvas,margin} = this;
         const bounds = {
@@ -58,20 +60,88 @@ class Chart {
         ctx.globalAlpha = this.transparency;
         this.#drawSamples();
         ctx.globalAlpha = 1; // reset so it doesnt impact subsequent drawings
+        this.#drawAxes();
+    }
+    #drawAxes() {
+        const {ctx,canvas,margin,axesLabels} = this;
+        const {left,right,top,bottom} = this.pixelBounds;
+
+        graphics.drawText(ctx,{
+            text:axesLabels[0],
+            loc:[canvas.width/2,bottom+margin/2],
+            size:margin*0.6
+        })
+        ctx.save(); // save the canvas context
+        ctx.translate(left-margin/2,canvas.height/2);
+        ctx.rotate(-Math.PI/2);
+        graphics.drawText(ctx, {
+            text:axesLabels[1],
+            loc:[0,0], // cause we already positioned it when we translated
+            size:margin*0.6
+        })
+        ctx.restore();
+
+        ctx.beginPath();
+        ctx.moveTo(left,top);
+        ctx.lineTo(left,bottom);
+        ctx.lineTo(right,bottom);
+        ctx.setLineDash([5,4]);
+        ctx.strokeStyle='lightgray';
+        ctx.lineWidth=1.5;
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        const dataMin = math.remapPoint(this.pixelBounds,this.dataBounds,[left,bottom]);
+        graphics.drawText(ctx,{
+            text:math.formatNumber(dataMin[0]),
+            loc:[left,bottom],
+            size:margin*0.3,
+            align:"left",
+            vAlign:"top"
+        });
+        ctx.save();
+        ctx.translate(left,bottom);
+        ctx.rotate(-Math.PI/2);
+        graphics.drawText(ctx,{
+            text:math.formatNumber(dataMin[1],2),
+            size:margin*0.3,
+            loc:[0,0],
+            align:"middle",
+            vAlign:"bottom"
+        });
+        ctx.restore();
+        const dataMax = math.remapPoint(this.pixelBounds,this.dataBounds,[right,top]);
+
+        graphics.drawText(ctx,{
+            text:math.formatNumber(dataMax[0]),
+            loc:[right,bottom],
+            size:margin*0.3,
+            align:"right",
+            vAlign:"top"
+        });
+        ctx.save();
+        ctx.translate(left,top);
+        ctx.rotate(-Math.PI/2);
+        graphics.drawText(ctx,{
+            text:math.formatNumber(dataMax[1],2),
+            size:margin*0.3,
+            loc:[0,0],
+            align:"right",
+            vAlign:"bottom"
+        });
+        ctx.restore();
+        
+
 
     }
-
     #drawSamples() {
         const {ctx,samples,dataBounds,pixelBounds} = this;
         for (const sample of samples) {
             const {point} = sample;
             // console.log('pt ',point);
-            const pixelLoc = [
-                math.remap(dataBounds.left,dataBounds.right,pixelBounds.left,pixelBounds.right,point[0]),
-                math.remap(dataBounds.top,dataBounds.bottom,pixelBounds.top,pixelBounds.bottom,point[1])
-
-            ];
+            const pixelLoc = math.remapPoint(dataBounds,pixelBounds,point);
             graphics.drawPoint(ctx,pixelLoc);
         }
     }
+
 }
