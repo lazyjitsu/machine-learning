@@ -19,7 +19,8 @@ class Chart {
         this.pixelBounds=this.#getPixelBounds();
         this.dataBounds=this.#getDataBounds();
 
-    
+        this.#draw();
+
     }
 
     #getPixelBounds() {
@@ -34,8 +35,8 @@ class Chart {
     }
     #getDataBounds() {
         const {samples} = this;
-        const x = samples(s => s.point[0]);
-        const y = samples(s => s.point[1]);
+        const x = samples.map(s => s.point[0]);
+        const y = samples.map(s => s.point[1]);
         // Math.min and max fcns don't work w/arrays, they work with individual values hence the spread operator ...
 
         const minX = Math.min(...x);
@@ -49,5 +50,27 @@ class Chart {
             bottom:minY
         }
         return bounds;
+    }
+    #draw() {
+        const {ctx,canvas} = this;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        ctx.globalAlpha = this.transparency;
+        this.#drawSamples();
+        ctx.globalAlpha = 1; // reset so it doesnt impact subsequent drawings
+
+    }
+
+    #drawSamples() {
+        const {ctx,samples,dataBounds,pixelBounds} = this;
+        for (const sample of samples) {
+            const {point} = sample;
+            console.log('pt ',point);
+            const pixelLoc = [
+                math.remap(dataBounds.left,dataBounds.right,pixelBounds.left,pixelBounds.right,point[0]),
+                math.remap(dataBounds.top,dataBounds.bottom,pixelBounds.top,pixelBounds.bottom,point[1])
+
+            ]
+        }
     }
 }
