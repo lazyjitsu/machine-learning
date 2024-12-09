@@ -35,3 +35,9 @@ math.subtract=(p1,p2) => {
         p1[1] - p2[1]
     ]
 }
+math.scale=(p,scaler) => {
+    return [
+        p[0]*scaler,
+        p[1]*scaler
+    ]
+}

@@ -47,9 +47,9 @@ class Chart {
             if(dragInfo.dragging) {
                 const dataLoc = this.#getMouse(e,true);
                 dragInfo.end=dataLoc;
-                dragInfo.offset=math.subtract(
-                    dragInfo.start,dragInfo.end
-                )
+                dragInfo.offset=math.scale(math.subtract(
+                                    dragInfo.start,dragInfo.end
+                                ),dataTrans.scale);
                 const newOffset=math.add(
                     dataTrans.offset,dragInfo.offset
                 )
