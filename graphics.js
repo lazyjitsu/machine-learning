@@ -28,9 +28,17 @@ graphics.generateImages = (styles,size=20) => {
         ctx.textBaseline="middle";
         ctx.font=size+"px Courier";
 
-        const hue=-45+60+60+60;
+        const colorHueMap = {
+            red:0,
+            yellow:60,
+            green:120,
+            cyan:180,
+            blue:240,
+            magenta:300
+        }
+        const hue=-45+colorHueMap[style.color];
 
-        if(style.color=="red") {
+        if(!isNaN(hue)) {
             ctx.filter=`
                 brightness(2)
                 contrast(0.3)
