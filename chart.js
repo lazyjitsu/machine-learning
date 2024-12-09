@@ -58,6 +58,21 @@ class Chart {
                 // console.log('NO ',newOffset);
                 this.#draw();
             }
+            // we want the location of mouse no matter if button is depressed. when hovering too
+            const pLoc=this.#getMouse(e); // pixel space is going to default
+            const pxLoc=this.samples.map(s => {
+                math.remapPoint(
+                    this.dataBounds,
+                    this.pixelBounds,
+                    s.point
+                )
+            });
+            // from our mouse location, we need to get the nearest pixel. basically from mouse px to data's correlating px 
+
+            const index = math.getNearest(pLoc,pxLoc);
+            this.nearestSampleToMousePx=this.samples[index];
+            console.log('Nearest: ',this.nearestSampleToMousePx);
+
         }
         canvas.onmouseup=(e) => {
             dataTrans.offset=math.add(
