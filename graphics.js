@@ -28,8 +28,19 @@ graphics.generateImages = (styles,size=20) => {
         ctx.textBaseline="middle";
         ctx.font=size+"px Courier";
 
-        
-        ctx.filter="grayscale(1)";
+        if(style.color=="red") {
+            ctx.filter=`
+                brightness(2)
+                contrast(0.3)
+                sepia(1)
+                brightness(0.7)
+                hue-rotate(-45deg)
+                saturate(3)
+                contrast(3)
+            `
+        } else {
+            ctx.filter="grayscale(1)";
+        }
 
         // center of mini canvas
         ctx.fillText(style.text,
