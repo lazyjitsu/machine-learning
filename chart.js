@@ -237,10 +237,10 @@ class Chart {
     #drawSamples() {
         const {ctx,samples,dataBounds,pixelBounds} = this;
         for (const sample of samples) {
-            const {point} = sample;
+            const {point,label} = sample;
             // console.log('pt ',point);
             const pixelLoc = math.remapPoint(dataBounds,pixelBounds,point);
-            graphics.drawPoint(ctx,pixelLoc);
+            graphics.drawPoint(ctx,pixelLoc),this.styles[label];
         }
     }
 
