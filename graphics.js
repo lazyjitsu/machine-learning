@@ -28,13 +28,15 @@ graphics.generateImages = (styles,size=20) => {
         ctx.textBaseline="middle";
         ctx.font=size+"px Courier";
 
+        const hue=-45+60+60+60;
+
         if(style.color=="red") {
             ctx.filter=`
                 brightness(2)
                 contrast(0.3)
                 sepia(1)
                 brightness(0.7)
-                hue-rotate(-45deg)
+                hue-rotate(${hue}deg)
                 saturate(3)
                 contrast(3)
             `
