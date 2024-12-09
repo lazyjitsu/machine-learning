@@ -15,7 +15,7 @@ class Chart {
         this.ctx = this.canvas.getContext('2d');
         this.margin = options.size*0.1; 
         // because we have a lot of overlapping data points, we will use transparency
-        this.transparency=0.8;
+        this.transparency=0.7;
 
         this.dataTrans = {
             offset:[0,0],
@@ -243,6 +243,12 @@ class Chart {
             const pixelLoc = math.remapPoint(dataBounds,pixelBounds,point);
 
             switch(this.icon) {
+                case "image":
+                    graphics.drawImage(ctx,
+                        this.styles[label].image,
+                        pixelLoc
+                    );
+                    break;
                 case "text":
                     graphics.drawText(ctx,{
                         text:this.styles[label].text,

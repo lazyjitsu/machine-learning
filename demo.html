@@ -40,13 +40,18 @@
                 sport: {color:'red',text:'🏎️'}
             },
             // we want the icon to come from text emoji above
-            icon:"text"
+            icon:"image"
         }
-        const chart = new Chart(
+        graphics.generateImages(options.styles);
+        // didnt experience an issue but put just in case the chart drew over the images
+        setTimeout(() => {
+            const chart = new Chart(
             chartContainer,
             samples,
             options
         )
+        },100);
+
         const header=dataTable.createTHead();
         const tr=header.insertRow();
         // and in this roll let's insert a cell
