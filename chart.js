@@ -54,10 +54,10 @@ class Chart {
                 dragInfo.end=dataLoc;
                 dragInfo.offset=math.scale(math.subtract(
                                     dragInfo.start,dragInfo.end
-                                ),dataTrans.scale);
+                                ),dataTrans.scale**2);
                 const newOffset=math.add(
-                    dataTrans.offset,dragInfo.offset
-                )
+                                    dataTrans.offset,dragInfo.offset
+                                )
                 this.#updateDataBounds(newOffset,dataTrans.scale);
             }
             // we want the location of mouse no matter if button is depressed. when hovering too
@@ -69,7 +69,6 @@ class Chart {
                 )
             );
             // from our mouse location, we need to get the nearest pixel. basically from mouse px to data's correlating px 
-            console.log('s: ',pxLoc)
             const index = math.getNearest(pLoc,pxLoc);
             const nearest=this.samples[index];
             const dist = math.distance(pxLoc[index],pLoc);
@@ -109,14 +108,20 @@ class Chart {
                 return;
             }
             if(this.hoveredSample) {
-                this.selectedSample=this.hoveredSample;
-                if(this.onClick) {
-                    this.onClick(
-                        this.selectedSample
-                    )
+                if(this.selectedSample == this.hoveredSample) {
+                    this.selectedSample=null;
+                } else {
+                    this.selectedSample=this.hoveredSample;
                 }
-                this.#draw();
+            } else {
+                this.selectedSample=null;
             }
+            if(this.onClick) {
+                this.onClick(
+                    this.selectedSample
+                )
+            }
+            this.#draw();
         }
     }
     #updateDataBounds(offset,scale) {
