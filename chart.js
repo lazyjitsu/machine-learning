@@ -177,12 +177,30 @@ class Chart {
         ctx.globalAlpha = 1; // reset so it doesnt impact subsequent drawings
 
         if(this.nearestSampleToMousePx) {
-            this.#drawSamples(
-                [this.nearestSampleToMousePx]
-            )
+            this.#emphasizeSample(this.nearestSampleToMousePx)
         }
         
     }
+
+    #emphasizeSample(sample,color='yellow') {
+        console.log("emphasize: ",sample)
+        const pLoc=math.remapPoint(
+            this.dataBounds,
+            this.pixelBounds,
+            sample.point
+        )
+        const grd=this.ctx.createRadialGradient(
+            //radius of the gradient is 0
+            ...pLoc,0,...pLoc,this.margin
+        );
+        grd.addColorStop(0,color);
+        grd.addColorStop(1,"rgba(255,255,255,0");
+        graphics.drawPoint(
+            this.ctx,pLoc,grd,this.margin*2
+        )
+        this.#drawSamples([sample])
+    }
+
     #drawAxes() {
         const {ctx,canvas,margin,axesLabels} = this;
         const {left,right,top,bottom} = this.pixelBounds;
