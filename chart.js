@@ -69,6 +69,8 @@ class Chart {
             const dir=Math.sign(e.deltaY);
             const step=0.02;
             dataTrans.scale+=dir*step;
+            // clamp how much we can zoom
+            dataTrans.scale=Math.max(step,Math.min(2,dataTrans.scale));
             this.#updateDataBounds(
                 dataTrans.offset,
                 dataTrans.scale
@@ -93,19 +95,19 @@ class Chart {
         // zoom in will be interpolation, zoomout, extrapolation
         dataBounds.left=math.lerp(
             center[0],
-            dataBounds.left,scale
+            dataBounds.left,scale**2
         );
         dataBounds.right=math.lerp(
             center[0],
-            dataBounds.right,scale
+            dataBounds.right,scale**2
         );
         dataBounds.top=math.lerp(
             center[1],
-            dataBounds.top,scale
+            dataBounds.top,scale**2
         );
         dataBounds.bottom=math.lerp(
             center[1],
-            dataBounds.bottom,scale
+            dataBounds.bottom,scale**2
         );
     }
 
