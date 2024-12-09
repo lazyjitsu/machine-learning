@@ -29,6 +29,8 @@ graphics.generateImages = (styles,size=20) => {
         ctx.font=size+"px Courier";
 
         
+        ctx.filter="grayscale(1)";
+
         // center of mini canvas
         ctx.fillText(style.text,
             canvas.width/2,canvas.height/2
