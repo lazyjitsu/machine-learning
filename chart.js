@@ -27,6 +27,7 @@ class Chart {
             offset:[0,0],
             dragging:false
         }
+        this.nearestSampleToMousePx=null;
 
         this.pixelBounds=this.#getPixelBounds();
         this.dataBounds=this.#getDataBounds();
@@ -55,24 +56,21 @@ class Chart {
                     dataTrans.offset,dragInfo.offset
                 )
                 this.#updateDataBounds(newOffset,dataTrans.scale);
-                // console.log('NO ',newOffset);
-                this.#draw();
             }
             // we want the location of mouse no matter if button is depressed. when hovering too
             const pLoc=this.#getMouse(e); // pixel space is going to default
-            const pxLoc=this.samples.map(s => {
-                math.remapPoint(
+            const pxLoc=this.samples.map(s => math.remapPoint(
                     this.dataBounds,
                     this.pixelBounds,
                     s.point
                 )
-            });
+            );
             // from our mouse location, we need to get the nearest pixel. basically from mouse px to data's correlating px 
-
+            console.log('s: ',pxLoc)
             const index = math.getNearest(pLoc,pxLoc);
             this.nearestSampleToMousePx=this.samples[index];
-            console.log('Nearest: ',this.nearestSampleToMousePx);
-
+            console.log(index,this.nearestSampleToMousePx);
+            this.#draw();
         }
         canvas.onmouseup=(e) => {
             dataTrans.offset=math.add(
@@ -172,11 +170,18 @@ class Chart {
     #draw() {
         const {ctx,canvas} = this;
         ctx.clearRect(0,0,canvas.width,canvas.height);
+        this.#drawAxes();
 
         ctx.globalAlpha = this.transparency;
-        this.#drawSamples();
+        this.#drawSamples(this.samples);
         ctx.globalAlpha = 1; // reset so it doesnt impact subsequent drawings
-        this.#drawAxes();
+
+        if(this.nearestSampleToMousePx) {
+            this.#drawSamples(
+                [this.nearestSampleToMousePx]
+            )
+        }
+        
     }
     #drawAxes() {
         const {ctx,canvas,margin,axesLabels} = this;
@@ -246,15 +251,12 @@ class Chart {
             vAlign:"bottom"
         });
         ctx.restore();
-        
-
 
     }
-    #drawSamples() {
-        const {ctx,samples,dataBounds,pixelBounds} = this;
+    #drawSamples(samples) {
+        const {ctx,dataBounds,pixelBounds} = this;
         for (const sample of samples) {
             const {point,label} = sample;
-            // console.log('pt ',point);
             const pixelLoc = math.remapPoint(dataBounds,pixelBounds,point);
 
             switch(this.icon) {
