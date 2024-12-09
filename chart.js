@@ -2,6 +2,7 @@ class Chart {
     constructor(container,samples,options) {
         this.samples = samples;
         this.styles = options.styles;
+        this.icon=options.icon;
         this.axesLabels = options.axesLabels;
 
         this.canvas = document.createElement('canvas');
@@ -240,7 +241,19 @@ class Chart {
             const {point,label} = sample;
             // console.log('pt ',point);
             const pixelLoc = math.remapPoint(dataBounds,pixelBounds,point);
-            graphics.drawPoint(ctx,pixelLoc),this.styles[label];
+
+            switch(this.icon) {
+                case "text":
+                    graphics.drawText(ctx,{
+                        text:this.styles[label].text,
+                        loc:pixelLoc,
+                        size:20
+                    });
+                    break;
+                default:
+                    graphics.drawPoint(ctx,pixelLoc,this.styles[label].color);
+                    break;
+            }
         }
     }
 
