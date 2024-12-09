@@ -27,7 +27,7 @@ class Chart {
             offset:[0,0],
             dragging:false
         }
-        this.nearestSampleToMousePx=null;
+        this.hoveredSample=null;
 
         this.pixelBounds=this.#getPixelBounds();
         this.dataBounds=this.#getDataBounds();
@@ -68,8 +68,14 @@ class Chart {
             // from our mouse location, we need to get the nearest pixel. basically from mouse px to data's correlating px 
             console.log('s: ',pxLoc)
             const index = math.getNearest(pLoc,pxLoc);
-            this.nearestSampleToMousePx=this.samples[index];
-            console.log(index,this.nearestSampleToMousePx);
+            const nearest=this.samples[index];
+            const dist = math.distance(pxLoc[index],pLoc);
+            if(dist<this.margin/2) {
+                this.hoveredSample=nearest;
+            } else {
+                this.hoveredSample=null;
+            }
+            console.log(index,this.hoveredSample);
             this.#draw();
         }
         canvas.onmouseup=(e) => {
@@ -176,8 +182,8 @@ class Chart {
         this.#drawSamples(this.samples);
         ctx.globalAlpha = 1; // reset so it doesnt impact subsequent drawings
 
-        if(this.nearestSampleToMousePx) {
-            this.#emphasizeSample(this.nearestSampleToMousePx)
+        if(this.hoveredSample) {
+            this.#emphasizeSample(this.hoveredSample)
         }
         
     }
@@ -191,7 +197,7 @@ class Chart {
         )
         const grd=this.ctx.createRadialGradient(
             //radius of the gradient is 0
-            ...pLoc,0,...pLoc,this.margin
+            ...pLoc,0,...pLoc,this.margin*0.5
         );
         grd.addColorStop(0,color);
         grd.addColorStop(1,"rgba(255,255,255,0");
