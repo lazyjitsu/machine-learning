@@ -74,6 +74,8 @@ class Chart {
                 dataTrans.scale
             );
             this.#draw();
+
+            e.preventDefault();
         }
     }
     #updateDataBounds(offset,scale) {
