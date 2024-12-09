@@ -66,3 +66,11 @@ button:disabled:hover {
     top:50%;
     transform:translate(0,-50%);
 }
+
+#inputContainer {
+    position:fixed;
+    right:500px;
+    top:50%;
+    text-align: center;
+    margin:10px;
+}
