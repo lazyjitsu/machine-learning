@@ -81,7 +81,7 @@ class Chart {
             e.clientY - rect.top
         ]
         if(dataSpace) {
-            const dataLoc = math.remapPoint(this.pixelBounds,this.dataBounds,pixelLoc);
+            const dataLoc = math.remapPoint(this.pixelBounds,this.defaultDataBounds,pixelLoc);
             return dataLoc;
         } //else
         return pixelLoc;
