@@ -48,7 +48,8 @@
             const chart = new Chart(
             chartContainer,
             samples,
-            options
+            options,
+            handleClick
         )
         },100);
 
@@ -63,13 +64,31 @@
         const body=dataTable.createTBody();
         for(const sample of samples) {
             const tr=body.insertRow();
+            tr.id="sample_"+sample.id;
+            tr.onclick=()=>handleClick(sample,false);
             tr.insertCell().innerHTML=sample.id;
             tr.insertCell().innerHTML=sample.label;
             tr.insertCell().innerHTML=math.formatNumber(sample.point[0]);
             tr.insertCell().innerHTML=math.formatNumber(sample.point[1]);
 
         }
-        // console.log(math.remap(1,100,2,200,30))
+        function handleClick(sample,doScroll=true) {
+            [...document.querySelectorAll('.emphasize')].
+                forEach( (e) => {
+                    e.classList.remove('emphasize');
+                });
+            const el=document.getElementById(
+                "sample_"+sample.id
+            );
+            el.classList.add("emphasize");
+            if(doScroll) {
+                el.scrollIntoView({
+                behavior: 'auto',
+                block:'center'
+            })
+            }
+ 
+        }        
     </script>
 </body>
 </html>

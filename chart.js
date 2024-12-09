@@ -1,12 +1,12 @@
 class Chart {
-    constructor(container,samples,options) {
+    constructor(container,samples,options,onClick=null) {
         this.samples = samples;
         this.styles = options.styles;
         this.icon=options.icon;
         this.axesLabels = options.axesLabels;
+        this.onClick = onClick;
 
         this.canvas = document.createElement('canvas');
-
         this.canvas.width = options.size;
         this.canvas.height = options.size;
         this.canvas.style="background-color:white;";
@@ -27,7 +27,9 @@ class Chart {
             offset:[0,0],
             dragging:false
         }
+
         this.hoveredSample=null;
+        this.selectedSample=null;
 
         this.pixelBounds=this.#getPixelBounds();
         this.dataBounds=this.#getDataBounds();
@@ -98,6 +100,17 @@ class Chart {
             this.#draw();
 
             e.preventDefault();
+        }
+        canvas.onclick=() => {
+            if(this.hoveredSample) {
+                this.selectedSample=this.hoveredSample;
+                if(this.onClick) {
+                    this.onClick(
+                        this.selectedSample
+                    )
+                }
+                this.#draw();
+            }
         }
     }
     #updateDataBounds(offset,scale) {
@@ -185,9 +198,15 @@ class Chart {
         if(this.hoveredSample) {
             this.#emphasizeSample(this.hoveredSample)
         }
+        if(this.selectedSample) {
+            this.#emphasizeSample(this.selectedSample,"yellow")
+        }
         
     }
-
+    selectSample(sample) {
+        this.selectedSample=sample;
+        this.#draw()
+    }
     #emphasizeSample(sample,color='yellow') {
         console.log("emphasize: ",sample)
         const pLoc=math.remapPoint(
