@@ -53,7 +53,7 @@ class Chart {
                 const newOffset=math.add(
                     dataTrans.offset,dragInfo.offset
                 )
-                this.#updateDataBounds(newOffset);
+                this.#updateDataBounds(newOffset,dataTrans.scale);
                 // console.log('NO ',newOffset);
                 this.#draw();
             }
@@ -65,15 +65,48 @@ class Chart {
             )
             dragInfo.dragging=false;
         }
+        canvas.onwheel=(e) => {
+            const dir=Math.sign(e.deltaY);
+            const step=0.02;
+            dataTrans.scale+=dir*step;
+            this.#updateDataBounds(
+                dataTrans.offset,
+                dataTrans.scale
+            );
+            this.#draw();
+        }
     }
-    #updateDataBounds(offset) {
+    #updateDataBounds(offset,scale) {
         const {dataBounds,defaultDataBounds:def} = this;
         dataBounds.left=def.left+offset[0]; // x
         dataBounds.right=def.right+offset[0]; // x
         dataBounds.top=def.top+offset[1]; // y
         dataBounds.bottom=def.bottom+offset[1]; // y
 
+        // use the center as a focal point of sorts
+        const center = [
+            (dataBounds.left+dataBounds.right)/2,
+            (dataBounds.top+dataBounds.bottom)/2
+        ];
+        // zoom in will be interpolation, zoomout, extrapolation
+        dataBounds.left=math.lerp(
+            center[0],
+            dataBounds.left,scale
+        );
+        dataBounds.right=math.lerp(
+            center[0],
+            dataBounds.right,scale
+        );
+        dataBounds.top=math.lerp(
+            center[1],
+            dataBounds.top,scale
+        );
+        dataBounds.bottom=math.lerp(
+            center[1],
+            dataBounds.bottom,scale
+        );
     }
+
     #getMouse(e,dataSpace=false) {
         const rect = this.canvas.getBoundingClientRect();
         const pixelLoc = [
@@ -81,6 +114,7 @@ class Chart {
             e.clientY - rect.top
         ]
         if(dataSpace) {
+            // need static data. the fact that its updating and moving is reason it shakes when moving
             const dataLoc = math.remapPoint(this.pixelBounds,this.defaultDataBounds,pixelLoc);
             return dataLoc;
         } //else
