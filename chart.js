@@ -16,13 +16,75 @@ class Chart {
         // because we have a lot of overlapping data points, we will use transparency
         this.transparency=0.5;
 
+        this.dataTrans = {
+            offset:[0,0],
+            scale:1 // this will control the zooming
+        }
+        this.dragInfo = {
+            start:[0,0],
+            end:[0,0],
+            offset:[0,0],
+            dragging:false
+        }
+
         this.pixelBounds=this.#getPixelBounds();
         this.dataBounds=this.#getDataBounds();
-
+        this.defaultDataBounds=this.#getDataBounds();
+        this.#addEventListeners();
         this.#draw();
     }
 
-    #addEventListners() {
+    #addEventListeners() {
+        const {canvas,dataTrans,dragInfo} = this;
+        canvas.onmousedown=(e) => {
+            const dataLoc=this.#getMouse(e,true); //true=working w/data space            
+            // console.log('DL ',dataLoc);
+            dragInfo.start=dataLoc;
+            dragInfo.dragging=true;
+            console.log('heoi')
+        }
+        canvas.onmousemove=(e) => {
+            if(dragInfo.dragging) {
+                const dataLoc = this.#getMouse(e,true);
+                dragInfo.end=dataLoc;
+                dragInfo.offset=math.subtract(
+                    dragInfo.start,dragInfo.end
+                )
+                const newOffset=math.add(
+                    dataTrans.offset,dragInfo.offset
+                )
+                this.#updateDataBounds(newOffset);
+                // console.log('NO ',newOffset);
+                this.#draw();
+            }
+        }
+        canvas.onmouseup=(e) => {
+            dataTrans.offset=math.add(
+                dataTrans.offset,
+                dragInfo.offset
+            )
+            dragInfo.dragging=false;
+        }
+    }
+    #updateDataBounds(offset) {
+        const {dataBounds,defaultDataBounds:def} = this;
+        dataBounds.left=def.left+offset[0]; // x
+        dataBounds.right=def.right+offset[0]; // x
+        dataBounds.top=def.top+offset[1]; // y
+        dataBounds.bottom=def.bottom+offset[1]; // y
+
+    }
+    #getMouse(e,dataSpace=false) {
+        const rect = this.canvas.getBoundingClientRect();
+        const pixelLoc = [
+            e.clientX - rect.left,
+            e.clientY - rect.top
+        ]
+        if(dataSpace) {
+            const dataLoc = math.remapPoint(this.pixelBounds,this.dataBounds,pixelLoc);
+            return dataLoc;
+        } //else
+        return pixelLoc;
 
     }
     #getPixelBounds() {
