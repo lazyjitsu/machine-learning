@@ -15,7 +15,7 @@ class Chart {
         this.ctx = this.canvas.getContext('2d');
         this.margin = options.size*0.1; 
         // because we have a lot of overlapping data points, we will use transparency
-        this.transparency=0.7;
+        this.transparency=options.translate||1; // this should have been called opacity
 
         this.dataTrans = {
             offset:[0,0],
