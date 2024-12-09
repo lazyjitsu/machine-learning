@@ -45,7 +45,8 @@ class Chart {
             // console.log('DL ',dataLoc);
             dragInfo.start=dataLoc;
             dragInfo.dragging=true;
-            console.log('heoi')
+            dragInfo.end=[0,0];
+            dragInfo.offset=[0,0];
         }
         canvas.onmousemove=(e) => {
             if(dragInfo.dragging) {
@@ -86,6 +87,7 @@ class Chart {
                 dragInfo.offset
             )
             dragInfo.dragging=false;
+
         }
         canvas.onwheel=(e) => {
             const dir=Math.sign(e.deltaY);
@@ -102,6 +104,10 @@ class Chart {
             e.preventDefault();
         }
         canvas.onclick=() => {
+            // is there any dragging..if so, quit
+            if(!math.equals(dragInfo.offset,[0,0])) {
+                return;
+            }
             if(this.hoveredSample) {
                 this.selectedSample=this.hoveredSample;
                 if(this.onClick) {
@@ -234,7 +240,7 @@ class Chart {
         ctx.clearRect(0,0,margin,this.canvas.height);
         ctx.clearRect(this.canvas.width-margin,0,margin,this.canvas.height);
         ctx.clearRect(0,this.canvas.height-margin,this.canvas.width,margin);
-        
+
         graphics.drawText(ctx,{
             text:axesLabels[0],
             loc:[canvas.width/2,bottom+margin/2],

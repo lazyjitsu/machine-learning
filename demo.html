@@ -43,9 +43,10 @@
             icon:"image"
         }
         graphics.generateImages(options.styles);
+        let chart;
         // didnt experience an issue but put just in case the chart drew over the images
         setTimeout(() => {
-            const chart = new Chart(
+            chart = new Chart(
             chartContainer,
             samples,
             options,
@@ -85,9 +86,9 @@
                 el.scrollIntoView({
                 behavior: 'auto',
                 block:'center'
-            })
+                })
             }
- 
+            chart.selectSample(sample);
         }        
     </script>
 </body>
