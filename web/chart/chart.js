@@ -31,7 +31,8 @@ class Chart{
  
        this.hoveredSample=null;
        this.selectedSample=null;
- 
+       this.dynamicPoint=null;
+
        this.pixelBounds=this.#getPixelBounds();
        this.dataBounds=this.#getDataBounds();
        this.defaultDataBounds=this.#getDataBounds();
@@ -40,7 +41,12 @@ class Chart{
  
        this.#addEventListeners();
     }
- 
+
+    showDynamicPoint(point) {
+      this.dynamicPoint=point;
+      console.log('Pt ',point);
+      this.#draw();
+    }
     #addEventListeners(){
        const {canvas,dataTrans,dragInfo}=this;
        canvas.onmousedown=(evt)=>{
@@ -234,8 +240,17 @@ class Chart{
              this.selectedSample,"yellow"
           );
        }
- 
-       this.#drawAxes();
+
+       if(this.dynamicPoint) {
+         const pixelLoc = math.remapPoint(
+            this.dataBounds,
+            this.pixelBounds,
+            this.dynamicPoint
+         );
+         graphics.drawPoint(ctx,pixelLoc,"black");
+         this.#drawAxes();
+
+       }
     }
  
     selectSample(sample){
