@@ -77,10 +77,15 @@ class SketchPad {
         } else {
             this.undoBtn.disabled=true;
         }
+        this.triggerUpdate();
+    }
+
+    triggerUpdate() {
         if(this.onUpdate) {
-            this.onUpdate(this.paths);
+            this.onUpdate(this.paths)
         }
     }
+    
     #getMouse=(e) => {
         const rect = this.canvas.getBoundingClientRect();
         return [
