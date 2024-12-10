@@ -66,5 +66,6 @@ function toggleInput() {
         inputContainer.style.display="block";
     } else {
         inputContainer.style.display="none";
+        chart.hideDynamicPoint();
     }
 }

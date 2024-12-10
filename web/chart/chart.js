@@ -44,7 +44,10 @@ class Chart{
 
     showDynamicPoint(point) {
       this.dynamicPoint=point;
-      console.log('Pt ',point);
+      this.#draw();
+    }
+    hideDynamicPoint() {
+      this.dynamicPoint=null;
       this.#draw();
     }
     #addEventListeners(){
