@@ -8,7 +8,9 @@
 </head>
 <body>
     <h1>Data Viewer</h1>
-    <div id="inputContainer"></div>
+    <div id="inputContainer">
+        <div id="predictedLabelContainer"></div>
+    </div>
     <div id="chartContainer"></div>
     <div id="controlPanel">
         <button onClick="toggleInput()">Toggle Input</button>
@@ -58,8 +60,18 @@
         function onDrawingUpdate(paths) {
             const functions=featureFunctions.inUse.map(f =>f.function)
             point=functions.map(f => f(paths));
-            console.log('p ',point);
-            chart.showDynamicPoint(point);
+            const label=classify(point);
+            // console.log('Label: ',label);
+            chart.showDynamicPoint(point,label);
+        }
+
+        function classify(point) {
+            const samplePoints = samples.map(s => s.point);
+            const index = utils.getNearest(point,samplePoints);
+            const nearestSample=samples[index];
+            predictedLabelContainer.innerHTML=nearestSample.label;
+            // console.log(nearestSample)
+            return nearestSample.label;
         }
     </script>
 
