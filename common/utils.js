@@ -59,6 +59,32 @@ utils.distance=(p1,p2)=>{
     }
     return nearestIndex;
  }
+
+utils.invLerp=(a,b,v) => {
+    return (v-a)/(b-a);
+}
+// normalize point such that the points fall in between 0 and 1
+utils.normalizePoints=(points) => {
+    let min,max;
+    const dimensions=points[0].length; // length of the first point
+    // in the beginning, min/max are the first 
+    min=[...points[0]];
+    max=[...points[0]];
+    for (let i = 1;i < points.length;i++) {
+        for(let j=0; j<dimensions;j++) {
+            // min[j]
+            min[j]=Math.min(min[j],points[i][j])
+            max[j]=Math.max(max[j],points[i][j])
+        }
+    }
+    for (let i =0; i < points.length;i++) {
+        for (let j =0; j < dimensions;j++) {
+            // between min and max, convert points[i][j] to a percentage
+            points[i][j] = utils.invLerp(min[j],max[j],points[i][j])
+        }
+    }
+
+}
 if(typeof module!=='undefined') {
     module.exports=utils;
 }
