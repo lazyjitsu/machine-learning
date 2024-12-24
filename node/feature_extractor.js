@@ -15,7 +15,7 @@ for (const sample of samples) {
     const paths=JSON.parse(
         fs.readFileSync(
             constants.JSON_DIR+"/"+sample.id+".json"
-        ).filter(s=>sid!=3107)
+        ).filter(s=>s.id!=3107)
     );
     const functions=featureFunctions.inUse.map(f =>f.function)
     sample.point=functions.map(f => f(paths));
