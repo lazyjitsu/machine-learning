@@ -62,6 +62,7 @@
         function onDrawingUpdate(paths) {
             const functions=featureFunctions.inUse.map(f =>f.function)
             point=functions.map(f => f(paths));
+            utils.normalizePoints([point],minMax)
             const {label,nearestSample} = classify(point);
             // console.log('Label: ',label);
             chart.showDynamicPoint(point,label,nearestSample);
