@@ -32,7 +32,7 @@ class Chart{
        this.hoveredSample=null;
        this.selectedSample=null;
        this.dynamicPoint=null;
-       this.nearestSample=null;
+       this.nearestSamples=null;
 
        this.pixelBounds=this.#getPixelBounds();
        this.dataBounds=this.#getDataBounds();
@@ -43,9 +43,9 @@ class Chart{
        this.#addEventListeners();
     }
 
-    showDynamicPoint(point,label,nearestSample) {
+    showDynamicPoint(point,label,nearestSamples) {
       this.dynamicPoint={point,label}; // i.e {point:point,label:label}
-      this.nearestSample=nearestSample;
+      this.nearestSamples=nearestSamples;
       this.#draw();
     }
     hideDynamicPoint() {
@@ -260,17 +260,19 @@ class Chart{
          );
      
          graphics.drawPoint(ctx,pixelLoc,"rgba(255,255,255,0.7",10000000);
-         ctx.beginPath();
-         ctx.moveTo(...pixelLoc);
-         ctx.lineTo(...math.remapPoint(
-            this.dataBounds,
-            this.pixelBounds,
-            this.nearestSample.point
-         ));
-         ctx.stroke();
+         for (const sample of this.nearestSamples) {
+            const point = math.remapPoint(
+               this.dataBounds,
+               this.pixelBounds,
+               sample.point
+            )
+            ctx.beginPath();
+            ctx.moveTo(...pixelLoc);
+            ctx.lineTo(...point);
+            ctx.stroke();
+         }
          graphics.drawImage(ctx,this.styles[label].image,pixelLoc);
          this.#drawAxes();
-
        }
     }
  
